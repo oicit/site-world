@@ -1,0 +1,36 @@
+<!-- st:meta
+name: footer
+purpose: Site footer — brand restated, column links, fine print. Quiet by
+  design; the CTA above did the selling.
+interaction: none (deliberately).
+mobile: columns wrap to 2, then 1.
+source: site-world S0
+-->
+<footer class="st-footer">
+  <style>
+    .st-footer{background:var(--st-ink);color:var(--st-ink-inv);
+      padding:calc(var(--st-gap)*.7) 0 2.5rem;margin-top:var(--st-gap)}
+    .st-footer .grid{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:2.5rem}
+    .st-footer .brand{font-family:var(--st-font-display);font-weight:800;font-size:1.4rem}
+    .st-footer .tagline{margin:.7rem 0 0;max-width:30ch;font-size:var(--st-fine)}
+    .st-footer h3{font-size:var(--st-fine);font-weight:700;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--st-accent-2);margin:0 0 1rem}
+    .st-footer ul{list-style:none;margin:0;padding:0;display:grid;gap:.55rem}
+    .st-footer a{text-decoration:none;font-size:.95rem;font-weight:500}
+    .st-footer a:hover{color:var(--st-accent-2)}
+    .st-footer .fine{margin-top:3rem;padding-top:1.5rem;
+      border-top:1px solid var(--st-ink-2);display:flex;justify-content:space-between;
+      gap:1rem;flex-wrap:wrap;font-size:var(--st-fine)}
+    @media (max-width:880px){.st-footer .grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:560px){.st-footer .grid{grid-template-columns:1fr}}
+  </style>
+  <div class="st-wrap">
+    <div class="grid">
+      <div><span class="brand">BRAND</span><p class="tagline">BRAND_TAGLINE.</p></div>
+      <nav><h3>COL_1_TITLE</h3><ul><li><a href="#">LINK</a></li><li><a href="#">LINK</a></li><li><a href="#">LINK</a></li></ul></nav>
+      <nav><h3>COL_2_TITLE</h3><ul><li><a href="#">LINK</a></li><li><a href="#">LINK</a></li></ul></nav>
+      <nav><h3>COL_3_TITLE</h3><ul><li><a href="#">LINK</a></li><li><a href="#">LINK</a></li></ul></nav>
+    </div>
+    <div class="fine"><span>© YEAR BRAND. All rights reserved.</span><span>FINE_LINKS</span></div>
+  </div>
+</footer>

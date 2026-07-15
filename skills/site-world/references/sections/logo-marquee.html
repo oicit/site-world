@@ -1,0 +1,36 @@
+<!-- st:meta
+name: logo-marquee
+purpose: Social-proof strip — client/press logos in an infinite marquee.
+interaction: CSS-only infinite scroll (duplicated track); pauses on hover;
+  static row under reduced-motion.
+mobile: same, slower.
+source: site-world S0
+-->
+<section class="st-marquee" aria-label="Trusted by">
+  <style>
+    .st-marquee{padding-block:calc(var(--st-gap)*.5);overflow:clip}
+    .st-marquee .title{text-align:center;font-weight:700;font-size:var(--st-fine);
+      letter-spacing:.14em;text-transform:uppercase;color:var(--st-accent);margin:0 0 1.6rem}
+    .st-marquee .track{display:flex;gap:4rem;width:max-content;
+      animation:st-marquee-roll 28s linear infinite}
+    .st-marquee:hover .track{animation-play-state:paused}
+    .st-marquee .logo{height:34px;display:flex;align-items:center;
+      font-family:var(--st-font-display);font-weight:700;font-size:1.15rem;white-space:nowrap}
+    .st-marquee .logo img{height:100%;width:auto}
+    @keyframes st-marquee-roll{to{transform:translateX(-50%)}}
+    @media (max-width:680px){.st-marquee .track{animation-duration:40s}}
+    @media (prefers-reduced-motion:reduce){
+      .st-marquee .track{animation:none;width:auto;flex-wrap:wrap;justify-content:center}
+      .st-marquee .track > *:nth-child(n+7){display:none}  /* hide the duplicate set */
+    }
+  </style>
+  <p class="title">MARQUEE_TITLE</p>
+  <div class="track">
+    <!-- set A: replace text logos with <img>; then DUPLICATE the whole set
+         once (set B) for the seamless loop — 6 logos → 12 children -->
+    <span class="logo">LOGO_1</span><span class="logo">LOGO_2</span><span class="logo">LOGO_3</span>
+    <span class="logo">LOGO_4</span><span class="logo">LOGO_5</span><span class="logo">LOGO_6</span>
+    <span class="logo" aria-hidden="true">LOGO_1</span><span class="logo" aria-hidden="true">LOGO_2</span><span class="logo" aria-hidden="true">LOGO_3</span>
+    <span class="logo" aria-hidden="true">LOGO_4</span><span class="logo" aria-hidden="true">LOGO_5</span><span class="logo" aria-hidden="true">LOGO_6</span>
+  </div>
+</section>

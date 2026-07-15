@@ -1,0 +1,50 @@
+/* site-world theme token contract.
+   Copy to the project as theme.css and fill every value from the approved
+   style tile. Sections may ONLY reference these tokens — no raw hex, no raw
+   font names outside this file (QA greps for violations).
+
+   Hierarchy rule: --st-ink-2 is a real secondary HUE (e.g. a desaturated
+   blue-violet on cream, a warm sand on near-black) — NEVER a grey, and never
+   express hierarchy via text opacity. */
+
+:root {
+  /* surfaces */
+  --st-bg:        #F5EDE0;   /* page background */
+  --st-surface:   #FFFFFF;   /* cards / raised panels */
+  --st-surface-2: #ECE2D0;   /* alternate band background */
+
+  /* text */
+  --st-ink:       #241D2B;   /* primary text */
+  --st-ink-2:     #5C4A6E;   /* secondary text — a hue, not a grey */
+  --st-ink-inv:   #F7F3EA;   /* text on dark/accent surfaces */
+
+  /* brand */
+  --st-accent:    #8A7BB5;   /* primary accent — buttons, active states */
+  --st-accent-2:  #E8A34F;   /* support accent — highlights, tags */
+  --st-ok:        #3E8E5A;   /* semantic: confirmed / positive */
+  --st-warn:      #D25438;   /* semantic: danger / alert */
+
+  /* type */
+  --st-font-display: ui-rounded, "SF Pro Rounded", "Segoe UI", system-ui, sans-serif;
+  --st-font-body:    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
+  --st-font-mono:    ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* scale — sections size type with these, not their own clamps */
+  --st-h1: clamp(2.6rem, 6.5vw, 5.2rem);
+  --st-h2: clamp(1.9rem, 3.8vw, 3rem);
+  --st-h3: clamp(1.25rem, 1.9vw, 1.6rem);
+  --st-body: clamp(1rem, 1.2vw, 1.125rem);
+  --st-fine: 0.85rem;
+
+  /* shape + rhythm */
+  --st-radius:    16px;      /* cards */
+  --st-radius-sm: 10px;      /* buttons, tags */
+  --st-shadow:    0 18px 50px -18px rgb(0 0 0 / 0.22);
+  --st-gap:       clamp(4.5rem, 9vw, 8.5rem);   /* between sections */
+  --st-pad:       clamp(1.25rem, 4vw, 3rem);    /* section side padding */
+  --st-maxw:      1200px;
+
+  /* motion */
+  --st-ease:      cubic-bezier(0.22, 1, 0.36, 1);
+  --st-dur:       0.7s;
+}

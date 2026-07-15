@@ -1,0 +1,43 @@
+<!-- st:meta
+name: testimonial-cards
+purpose: Proof — 2–3 short testimonials as cards with accent-edged voice.
+  Keep quotes under 30 words; long quotes belong in quote-card.
+interaction: staggered reveal; subtle hover lift.
+mobile: single column.
+source: site-world S0
+-->
+<section class="st-testimonials">
+  <style>
+    .st-testimonials .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.4rem}
+    .st-testimonials .card{background:var(--st-surface);border-radius:var(--st-radius);
+      border-left:5px solid var(--st-accent);box-shadow:var(--st-shadow);
+      padding:1.8rem;display:flex;flex-direction:column;gap:1.2rem;
+      transition:transform .3s var(--st-ease)}
+    .st-testimonials .card:hover{transform:translateY(-5px)}
+    .st-testimonials blockquote{margin:0;font-size:1.05rem;line-height:1.5;
+      font-weight:500}
+    .st-testimonials .who{display:flex;align-items:center;gap:.8rem;margin-top:auto}
+    .st-testimonials .who .avatar{width:42px;height:42px;border-radius:50%;
+      background:linear-gradient(140deg,var(--st-accent),var(--st-accent-2));
+      display:grid;place-items:center;font-weight:800;color:var(--st-ink-inv)}
+    .st-testimonials .who .name{font-weight:700;font-size:var(--st-fine)}
+    .st-testimonials .who .role{font-size:var(--st-fine);color:var(--st-accent);font-weight:600}
+  </style>
+  <div class="st-wrap grid">
+    <figure class="card st-reveal" style="margin:0">
+      <blockquote>“TESTIMONIAL_1 — short, specific, outcome-shaped.”</blockquote>
+      <figcaption class="who"><span class="avatar">A</span>
+        <span><span class="name">PERSON_1</span><br/><span class="role">ROLE_1</span></span></figcaption>
+    </figure>
+    <figure class="card st-reveal" style="margin:0;--st-i:1">
+      <blockquote>“TESTIMONIAL_2.”</blockquote>
+      <figcaption class="who"><span class="avatar">B</span>
+        <span><span class="name">PERSON_2</span><br/><span class="role">ROLE_2</span></span></figcaption>
+    </figure>
+    <figure class="card st-reveal" style="margin:0;--st-i:2">
+      <blockquote>“TESTIMONIAL_3.”</blockquote>
+      <figcaption class="who"><span class="avatar">C</span>
+        <span><span class="name">PERSON_3</span><br/><span class="role">ROLE_3</span></span></figcaption>
+    </figure>
+  </div>
+</section>

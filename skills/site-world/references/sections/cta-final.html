@@ -1,0 +1,35 @@
+<!-- st:meta
+name: cta-final
+purpose: The closing conversion panel — one ask, restated promise, zero
+  navigation away. Always the second-to-last section (footer after).
+interaction: panel reveals; button pulse is subtle and stops after 3 loops.
+mobile: stacks, button full-width.
+source: site-world S0
+-->
+<section class="st-cta">
+  <style>
+    .st-cta .panel{background:linear-gradient(150deg,var(--st-accent),var(--st-accent-2));
+      color:var(--st-ink-inv);border-radius:calc(var(--st-radius)*1.5);
+      padding:clamp(2.5rem,7vw,5rem);text-align:center;box-shadow:var(--st-shadow)}
+    .st-cta h2{font-family:var(--st-font-display);font-size:var(--st-h2);
+      line-height:1.06;margin:0 auto 1rem;max-width:22ch}
+    .st-cta p{margin:0 auto 2.2rem;max-width:48ch}
+    .st-cta .btn{display:inline-block;text-decoration:none;font-weight:800;
+      font-size:1.05rem;padding:1.05rem 2.6rem;border-radius:var(--st-radius-sm);
+      background:var(--st-ink);color:var(--st-ink-inv);
+      animation:st-cta-pulse 2.2s var(--st-ease) 3;transition:transform .25s var(--st-ease)}
+    .st-cta .btn:hover{transform:translateY(-3px)}
+    .st-cta .fine{margin-top:1.2rem;font-size:var(--st-fine);font-weight:600}
+    @keyframes st-cta-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+    @media (max-width:640px){.st-cta .btn{display:block}}
+    @media (prefers-reduced-motion:reduce){.st-cta .btn{animation:none}}
+  </style>
+  <div class="st-wrap">
+    <div class="panel st-reveal">
+      <h2>CTA_HEADLINE.</h2>
+      <p>CTA_PROMISE — one sentence removing the last doubt.</p>
+      <a class="btn" href="#">CTA_BUTTON</a>
+      <p class="fine">CTA_FINE (e.g. no card required · cancel anytime)</p>
+    </div>
+  </div>
+</section>

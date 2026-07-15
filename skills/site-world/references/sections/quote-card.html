@@ -1,0 +1,45 @@
+<!-- st:meta
+name: quote-card
+purpose: Full-bleed statement/quote interlude — one line, maximum weight.
+  Harvested from the droplet project (「毁灭你,与你何干。」 closer). Use once
+  per page at the emotional peak; two of these dilute both.
+interaction: words fade up one by one on entry.
+mobile: type scales down via clamp; nothing else changes.
+source: droplet project (2026-07)
+-->
+<section class="st-quote">
+  <style>
+    .st-quote{background:var(--st-surface-2);text-align:center;
+      padding-block:calc(var(--st-gap)*1.25)}
+    .st-quote blockquote{margin:0 auto;max-width:22ch;overflow-wrap:anywhere;
+      font-family:var(--st-font-display);font-size:clamp(1.9rem,4.6vw,3.6rem);
+      line-height:1.18;letter-spacing:-.01em}
+    .st-quote blockquote .w{display:inline-block;opacity:0;transform:translateY(.5em);
+      transition:opacity .55s var(--st-ease),transform .55s var(--st-ease);
+      transition-delay:calc(var(--st-i,0)*70ms)}
+    .st-quote.st-in blockquote .w{opacity:1;transform:none}
+    .st-quote cite{display:block;margin-top:1.6rem;font-style:normal;font-weight:700;
+      font-size:var(--st-fine);letter-spacing:.12em;text-transform:uppercase;color:var(--st-accent)}
+    @media (prefers-reduced-motion:reduce){.st-quote blockquote .w{opacity:1;transform:none;transition:none}}
+  </style>
+  <div class="st-wrap">
+    <blockquote data-split>QUOTE_TEXT_ONE_STRONG_LINE.</blockquote>
+    <cite>QUOTE_ATTRIBUTION</cite>
+  </div>
+  <script>
+    (function () {
+      const s = document.currentScript.closest('section');
+      const q = s.querySelector('[data-split]');
+      // split into word spans (CJK: split per character instead)
+      const text = q.textContent.trim();
+      const parts = /[一-鿿]/.test(text) ? [...text] : text.split(/\s+/);
+      q.innerHTML = parts.map((w, i) =>
+        `<span class="w" style="--st-i:${i}">${w}</span>`).join(/[一-鿿]/.test(text) ? '' : ' ');
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { s.classList.add('st-in'); return; }
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting) { s.classList.add('st-in'); io.disconnect(); }
+      }), { threshold: 0.6 });
+      io.observe(q);
+    })();
+  </script>
+</section>

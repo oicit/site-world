@@ -1,0 +1,49 @@
+<!-- st:meta
+name: horizontal-scroll
+purpose: Horizontal panel rail — gallery, timeline, or product lineup that
+  side-scrolls inside its own container (scroll-snap; NO scroll hijack — the
+  page keeps scrolling vertically, this rail is swiped/wheeled on its own).
+interaction: native scroll-snap; drag-to-scroll on desktop; edge fade hints.
+mobile: native swipe, snap per card.
+source: site-world S0
+-->
+<section class="st-hrail">
+  <style>
+    .st-hrail header{max-width:60ch;margin-bottom:2.4rem}
+    .st-hrail header h2{font-family:var(--st-font-display);font-size:var(--st-h2);line-height:1.08;margin:0 0 .6rem}
+    .st-hrail header p{color:var(--st-ink-2);margin:0}
+    .st-hrail .rail{display:flex;gap:1.2rem;overflow-x:auto;scroll-snap-type:x mandatory;
+      padding:0 var(--st-pad) 1.2rem;scrollbar-width:none;cursor:grab}
+    .st-hrail .rail::-webkit-scrollbar{display:none}
+    .st-hrail .rail.dragging{cursor:grabbing;scroll-snap-type:none}
+    .st-hrail .panel{flex:0 0 min(420px,82vw);scroll-snap-align:start;
+      background:var(--st-surface);border-radius:var(--st-radius);box-shadow:var(--st-shadow);
+      overflow:clip;display:flex;flex-direction:column}
+    .st-hrail .panel .media{aspect-ratio:16/10;background:linear-gradient(140deg,var(--st-accent),var(--st-accent-2))}
+    .st-hrail .panel .media img{width:100%;height:100%;object-fit:cover}
+    .st-hrail .panel .body{padding:1.4rem}
+    .st-hrail .panel h3{font-family:var(--st-font-display);font-size:var(--st-h3);margin:0 0 .4rem}
+    .st-hrail .panel p{margin:0;font-size:var(--st-fine);color:var(--st-ink-2)}
+  </style>
+  <div class="st-wrap">
+    <header class="st-reveal"><h2>RAIL_HEADLINE.</h2><p>RAIL_INTRO.</p></header>
+  </div>
+  <div class="rail">
+    <article class="panel"><div class="media"></div><div class="body"><h3>PANEL_1</h3><p>PANEL_1_BODY</p></div></article>
+    <article class="panel"><div class="media"></div><div class="body"><h3>PANEL_2</h3><p>PANEL_2_BODY</p></div></article>
+    <article class="panel"><div class="media"></div><div class="body"><h3>PANEL_3</h3><p>PANEL_3_BODY</p></div></article>
+    <article class="panel"><div class="media"></div><div class="body"><h3>PANEL_4</h3><p>PANEL_4_BODY</p></div></article>
+  </div>
+  <script>
+    (function () {
+      const rail = document.currentScript.closest('section').querySelector('.rail');
+      let down = false, sx = 0, sl = 0;
+      rail.addEventListener('pointerdown', e => {
+        if (e.pointerType !== 'mouse') return;
+        down = true; sx = e.clientX; sl = rail.scrollLeft; rail.classList.add('dragging');
+      });
+      addEventListener('pointermove', e => { if (down) rail.scrollLeft = sl - (e.clientX - sx); });
+      addEventListener('pointerup', () => { down = false; rail.classList.remove('dragging'); });
+    })();
+  </script>
+</section>

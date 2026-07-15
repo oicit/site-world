@@ -1,0 +1,51 @@
+<!-- st:meta
+name: stats-counter
+purpose: Proof band — 3–4 large numbers count up on entry. Harvested from the
+  droplet project idea (fleet countdown). Numbers are the loudest proof a page
+  has; keep the labels short.
+interaction: count-up over ~1.2s with ease-out when the band enters; suffix/
+  prefix supported (%, +, ×). Reduced-motion: final values immediately.
+mobile: 2-col grid.
+source: droplet project (2026-07)
+-->
+<section class="st-stats">
+  <style>
+    .st-stats{background:var(--st-ink);color:var(--st-ink-inv)}
+    .st-stats .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:2.5rem}
+    .st-stats .stat{min-width:0}
+    .st-stats .stat .n{font-family:var(--st-font-display);font-size:clamp(2.6rem,5.5vw,4.4rem);
+      line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em;overflow-wrap:anywhere}
+    .st-stats .stat .n em{font-style:normal;color:var(--st-accent-2)}
+    .st-stats .stat .label{margin-top:.5rem;font-weight:600;font-size:var(--st-fine);
+      letter-spacing:.08em;text-transform:uppercase;color:var(--st-accent-2)}
+    @media (max-width:680px){.st-stats .grid{grid-template-columns:1fr 1fr;gap:2rem}}
+  </style>
+  <div class="st-wrap grid">
+    <!-- data-to = target; data-dp = decimals; text inside em = suffix -->
+    <div class="stat st-reveal"><div class="n"><span data-to="STAT_1_VALUE">0</span><em>STAT_1_SUFFIX</em></div><div class="label">STAT_1_LABEL</div></div>
+    <div class="stat st-reveal" style="--st-i:1"><div class="n"><span data-to="STAT_2_VALUE">0</span><em>STAT_2_SUFFIX</em></div><div class="label">STAT_2_LABEL</div></div>
+    <div class="stat st-reveal" style="--st-i:2"><div class="n"><span data-to="STAT_3_VALUE">0</span><em>STAT_3_SUFFIX</em></div><div class="label">STAT_3_LABEL</div></div>
+  </div>
+  <script>
+    (function () {
+      const s = document.currentScript.closest('section');
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const fmt = (v, dp) => Number(v).toLocaleString(undefined,
+        { minimumFractionDigits: dp, maximumFractionDigits: dp });
+      function run(el) {
+        const to = parseFloat(el.dataset.to), dp = +(el.dataset.dp || 0), t0 = performance.now();
+        if (!isFinite(to)) return;                    // placeholder — leave text as-is
+        if (reduce) { el.textContent = fmt(to, dp); return; }
+        (function tick(t) {
+          const p = Math.min((t - t0) / 1200, 1), e = 1 - Math.pow(1 - p, 3);
+          el.textContent = fmt(to * e, dp);
+          if (p < 1) requestAnimationFrame(tick);
+        })(t0);
+      }
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting) { run(e.target); io.unobserve(e.target); }
+      }), { threshold: 0.6 });
+      s.querySelectorAll('[data-to]').forEach(n => io.observe(n));
+    })();
+  </script>
+</section>

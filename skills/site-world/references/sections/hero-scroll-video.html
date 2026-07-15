@@ -1,0 +1,37 @@
+<!-- st:meta
+name: hero-scroll-video
+purpose: Full scroll-scrubbed video fly-through hero (the scroll-world engine).
+  Use for cinematic product/world intros; it OWNS the top of the page and its
+  own scroll length — mount it first, regular sections follow after its track.
+interaction: scroll scrubs a video (generated via Higgsfield or user footage);
+  per-scene copy, route rail, nav. See the scroll-world skill for the full
+  pipeline (assets, timestamps, encoding).
+mobile: engine handles phone hardening; provide videoMobile for smooth phones.
+source: scroll-world / droplet project (2026-07)
+-->
+<!-- This slot is a sub-pipeline, not a fragment: invoke the scroll-world
+     skill to produce assets + config, then mount it as the page opener. -->
+<div id="st-world"></div>
+<script src="scrub-engine.js"></script>
+<script>
+  // Theme bridge: map site tokens onto the engine's CSS vars so the hero and
+  // the rest of the page read as one system.
+  (function () {
+    const cs = getComputedStyle(document.documentElement);
+    const root = document.getElementById('st-world');
+    root.style.setProperty('--sw-bg', cs.getPropertyValue('--st-bg'));
+    root.style.setProperty('--sw-ink', cs.getPropertyValue('--st-ink'));
+    root.style.setProperty('--sw-ink-soft', cs.getPropertyValue('--st-ink-2'));
+    root.style.setProperty('--sw-accent', cs.getPropertyValue('--st-accent'));
+  })();
+  mountScrollWorld(document.getElementById('st-world'), {
+    brand: { name: 'BRAND', href: '#top' },
+    hint: 'scroll',
+    // single-video (own footage) example — or sections[].clip + connectors
+    video: 'assets/flight.mp4',
+    sections: [
+      { id: 'a', label: 'SCENE_A', to: 4, title: 'SCENE_A_TITLE', body: 'SCENE_A_BODY' },
+      { id: 'b', label: 'SCENE_B', from: 7, title: 'SCENE_B_TITLE', body: 'SCENE_B_BODY' },
+    ],
+  });
+</script>

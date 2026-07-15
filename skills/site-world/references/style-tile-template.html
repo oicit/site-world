@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- STYLE TILE — generate THREE variants of this file (tile-1.html …), each
+       with its own filled token block + personality name. The sample section
+       at the bottom is what sells it: judge the tile as a page, not a chart. -->
+  <title>Style tile — TILE_NAME</title>
+  <style>
+    :root {
+      /* ==== candidate tokens: fill from this tile's direction ==== */
+      --st-bg:#F5EDE0; --st-surface:#FFFFFF; --st-surface-2:#ECE2D0;
+      --st-ink:#241D2B; --st-ink-2:#5C4A6E; --st-ink-inv:#F7F3EA;
+      --st-accent:#8A7BB5; --st-accent-2:#E8A34F;
+      --st-font-display:ui-rounded,"SF Pro Rounded",system-ui,sans-serif;
+      --st-font-body:-apple-system,"Segoe UI",Roboto,system-ui,sans-serif;
+      --st-radius:16px; --st-radius-sm:10px;
+      --st-shadow:0 18px 50px -18px rgb(0 0 0 / .22);
+      --st-ease:cubic-bezier(.22,1,.36,1);
+    }
+    *{box-sizing:border-box} body{margin:0;background:var(--st-bg);color:var(--st-ink);
+      font-family:var(--st-font-body);line-height:1.55;padding:clamp(1.5rem,5vw,4rem)}
+    .tile{max-width:1080px;margin:0 auto;display:grid;gap:2.5rem}
+    .tile h1{font-family:var(--st-font-display);font-size:clamp(2rem,4vw,3rem);margin:0}
+    .tile h1 em{font-style:normal;color:var(--st-accent)}
+    .meta{font-size:.9rem;font-weight:600;color:var(--st-ink-2)}
+    .row{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem}
+    .card{background:var(--st-surface);border-radius:var(--st-radius);padding:1.5rem;box-shadow:var(--st-shadow)}
+    .card h2{font-family:var(--st-font-display);font-size:1.1rem;margin:0 0 1rem}
+    .swatches{display:flex;gap:.6rem;flex-wrap:wrap}
+    .sw{width:64px;height:64px;border-radius:var(--st-radius-sm);display:grid;place-items:end start;
+        padding:6px;font-size:.62rem;font-weight:700;font-family:var(--st-font-body)}
+    .type-display{font-family:var(--st-font-display);font-size:2.2rem;line-height:1.05;margin:0}
+    .type-body{font-size:1rem;max-width:38ch;margin:.8rem 0 0}
+    .motion{display:flex;gap:.6rem;flex-wrap:wrap}
+    .motion span{background:var(--st-surface-2);border-radius:999px;padding:.45rem 1rem;
+        font-size:.85rem;font-weight:600;color:var(--st-ink-2)}
+    /* ==== the sample section — restyle to match the direction ==== */
+    .sample{background:var(--st-surface);border-radius:var(--st-radius);box-shadow:var(--st-shadow);
+        padding:clamp(2rem,5vw,4rem);display:grid;grid-template-columns:1.1fr .9fr;gap:2.5rem;align-items:center}
+    .sample .eyebrow{font-weight:700;font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--st-accent)}
+    .sample h3{font-family:var(--st-font-display);font-size:clamp(1.8rem,3.4vw,2.6rem);line-height:1.06;margin:.7rem 0 1rem}
+    .sample p{margin:0 0 1.6rem;max-width:44ch}
+    .btn{display:inline-block;text-decoration:none;font-weight:700;padding:.85rem 1.7rem;
+        border-radius:var(--st-radius-sm);background:var(--st-accent);color:var(--st-ink-inv)}
+    .btn+.btn{background:transparent;color:var(--st-ink);border:2px solid var(--st-ink);margin-left:.7rem}
+    .sample .art{aspect-ratio:4/3;border-radius:var(--st-radius);
+        background:linear-gradient(140deg,var(--st-accent),var(--st-accent-2))}
+    @media (max-width:760px){.sample{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="tile">
+    <header>
+      <p class="meta">Style tile · TILE_NUMBER / 3</p>
+      <h1>TILE_NAME — <em>TILE_TAGLINE</em></h1>
+    </header>
+
+    <div class="row">
+      <div class="card"><h2>Palette</h2>
+        <div class="swatches">
+          <!-- one .sw per token; inline style ONLY here, tiles are pre-freeze -->
+          <div class="sw" style="background:var(--st-bg);border:1px solid var(--st-surface-2)">bg</div>
+          <div class="sw" style="background:var(--st-ink);color:var(--st-ink-inv)">ink</div>
+          <div class="sw" style="background:var(--st-ink-2);color:var(--st-ink-inv)">ink-2</div>
+          <div class="sw" style="background:var(--st-accent);color:var(--st-ink-inv)">accent</div>
+          <div class="sw" style="background:var(--st-accent-2)">accent-2</div>
+        </div>
+      </div>
+      <div class="card"><h2>Type</h2>
+        <p class="type-display">Aa — Display voice.</p>
+        <p class="type-body">Body voice: a sentence long enough to judge rhythm,
+        x-height and how the pairing feels at reading size.</p>
+      </div>
+      <div class="card"><h2>Motion words</h2>
+        <div class="motion"><span>MOTION_WORD_1</span><span>MOTION_WORD_2</span><span>MOTION_WORD_3</span></div>
+      </div>
+    </div>
+
+    <section class="sample">
+      <div>
+        <span class="eyebrow">SAMPLE_EYEBROW</span>
+        <h3>SAMPLE_HEADLINE_FROM_THE_ACTUAL_BRIEF.</h3>
+        <p>SAMPLE_BODY — use the project's real draft copy so the client judges
+        the direction with their own words in it.</p>
+        <a class="btn" href="#">Primary action</a><a class="btn" href="#">Secondary</a>
+      </div>
+      <div class="art"></div>
+    </section>
+  </div>
+</body>
+</html>

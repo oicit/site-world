@@ -1,0 +1,48 @@
+<!-- st:meta
+name: feature-bento
+purpose: Bento grid of features — one 2x2 anchor cell + supporting cells.
+  The workhorse "what you get" section.
+interaction: cells reveal staggered; hover lifts (transform only).
+mobile: collapses to a single column, anchor first.
+source: site-world S0
+-->
+<section class="st-bento">
+  <style>
+    .st-bento header{max-width:60ch;margin-bottom:3rem}
+    .st-bento header h2{font-family:var(--st-font-display);font-size:var(--st-h2);line-height:1.08;margin:0 0 .6rem}
+    .st-bento header p{color:var(--st-ink-2);margin:0}
+    .st-bento .grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:1.1rem}
+    .st-bento .cell{background:var(--st-surface);border-radius:var(--st-radius);
+      padding:1.6rem;display:flex;flex-direction:column;justify-content:flex-end;gap:.4rem;
+      box-shadow:var(--st-shadow);transition:transform .3s var(--st-ease);overflow:clip;position:relative}
+    .st-bento .cell:hover{transform:translateY(-6px)}
+    .st-bento .cell h3{font-family:var(--st-font-display);font-size:var(--st-h3);margin:0}
+    .st-bento .cell p{margin:0;font-size:var(--st-fine);color:var(--st-ink-2)}
+    .st-bento .cell .tag{position:absolute;top:1.2rem;left:1.6rem;font-weight:700;
+      font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--st-accent)}
+    .st-bento .cell--anchor{grid-column:span 2;grid-row:span 2;
+      background:linear-gradient(150deg,var(--st-accent),var(--st-accent-2));color:var(--st-ink-inv)}
+    .st-bento .cell--anchor p{color:var(--st-ink-inv)}
+    .st-bento .cell--anchor .tag{color:var(--st-ink-inv)}
+    .st-bento .cell--wide{grid-column:span 2}
+    @media (max-width:880px){
+      .st-bento .grid{grid-template-columns:1fr;grid-auto-rows:auto}
+      .st-bento .cell{min-height:150px}
+      .st-bento .cell--anchor,.st-bento .cell--wide{grid-column:auto;grid-row:auto}
+    }
+  </style>
+  <div class="st-wrap">
+    <header class="st-reveal">
+      <h2>BENTO_HEADLINE.</h2>
+      <p>BENTO_INTRO.</p>
+    </header>
+    <div class="grid">
+      <div class="cell cell--anchor st-reveal" style="--st-i:0">
+        <span class="tag">FLAGSHIP</span><h3>FEATURE_1_TITLE</h3><p>FEATURE_1_BODY</p>
+      </div>
+      <div class="cell st-reveal" style="--st-i:1"><h3>FEATURE_2</h3><p>FEATURE_2_BODY</p></div>
+      <div class="cell st-reveal" style="--st-i:2"><h3>FEATURE_3</h3><p>FEATURE_3_BODY</p></div>
+      <div class="cell cell--wide st-reveal" style="--st-i:3"><h3>FEATURE_4</h3><p>FEATURE_4_BODY</p></div>
+    </div>
+  </div>
+</section>

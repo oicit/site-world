@@ -1,0 +1,50 @@
+<!-- st:meta
+name: hero-type
+purpose: Typography-led hero — a huge staggered headline is the visual. For
+  brands with a strong verbal identity or when no hero art exists yet.
+interaction: headline lines rise in on load (staggered); marquee-free, calm.
+mobile: type scales via --st-h1; actions wrap.
+source: site-world S0
+-->
+<section class="st-hero-type">
+  <style>
+    .st-hero-type{min-height:86svh;display:grid;align-items:center}
+    .st-hero-type .st-eyebrow{font-weight:700;font-size:var(--st-fine);
+      letter-spacing:.16em;text-transform:uppercase;color:var(--st-accent)}
+    .st-hero-type h1{font-family:var(--st-font-display);font-size:var(--st-h1);
+      line-height:1.02;letter-spacing:-.015em;margin:.6rem 0 1.4rem;max-width:14ch}
+    .st-hero-type h1 .line{display:block;overflow:clip}
+    .st-hero-type h1 .line>span{display:inline-block;transform:translateY(110%);
+      transition:transform .9s var(--st-ease);transition-delay:calc(var(--st-i,0)*120ms)}
+    .st-hero-type.st-in h1 .line>span{transform:none}
+    .st-hero-type h1 em{font-style:normal;color:var(--st-accent)}
+    .st-hero-type .lede{font-size:var(--st-h3);max-width:46ch;margin:0 0 2.2rem;color:var(--st-ink-2)}
+    .st-hero-type .actions{display:flex;gap:.8rem;flex-wrap:wrap}
+    .st-hero-type .btn{display:inline-block;text-decoration:none;font-weight:700;
+      padding:.95rem 1.9rem;border-radius:var(--st-radius-sm);
+      background:var(--st-accent);color:var(--st-ink-inv);
+      transition:transform .25s var(--st-ease)}
+    .st-hero-type .btn:hover{transform:translateY(-2px)}
+    .st-hero-type .btn--ghost{background:transparent;color:var(--st-ink);border:2px solid var(--st-ink)}
+    @media (prefers-reduced-motion:reduce){.st-hero-type h1 .line>span{transform:none;transition:none}}
+  </style>
+  <div class="st-wrap">
+    <span class="st-eyebrow">HERO_EYEBROW</span>
+    <h1>
+      <span class="line"><span style="--st-i:0">HERO_LINE_ONE</span></span>
+      <span class="line"><span style="--st-i:1">HERO_LINE_TWO <em>HERO_EMPHASIS</em></span></span>
+    </h1>
+    <p class="lede">HERO_LEDE — one sentence that earns the scroll.</p>
+    <div class="actions">
+      <a class="btn" href="#">PRIMARY_CTA</a>
+      <a class="btn btn--ghost" href="#">SECONDARY_CTA</a>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const s = document.currentScript.closest('section');
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { s.classList.add('st-in'); return; }
+      requestAnimationFrame(() => requestAnimationFrame(() => s.classList.add('st-in')));
+    })();
+  </script>
+</section>

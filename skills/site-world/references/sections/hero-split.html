@@ -1,0 +1,46 @@
+<!-- st:meta
+name: hero-split
+purpose: Classic split hero — copy left, hero art/product shot right. The
+  default when there IS a strong hero image or product render.
+interaction: both halves reveal on load; art gets a slow float loop.
+mobile: stacks, art first (order swapped) so the visual still leads.
+source: site-world S0
+-->
+<section class="st-hero-split">
+  <style>
+    .st-hero-split{min-height:86svh;display:grid;align-items:center}
+    .st-hero-split .grid{display:grid;grid-template-columns:1.05fr .95fr;gap:3rem;align-items:center}
+    .st-hero-split .st-eyebrow{font-weight:700;font-size:var(--st-fine);
+      letter-spacing:.16em;text-transform:uppercase;color:var(--st-accent)}
+    .st-hero-split h1{font-family:var(--st-font-display);font-size:var(--st-h1);
+      line-height:1.04;letter-spacing:-.015em;margin:.6rem 0 1.2rem}
+    .st-hero-split .lede{max-width:46ch;color:var(--st-ink-2);margin:0 0 2rem}
+    .st-hero-split .actions{display:flex;gap:.8rem;flex-wrap:wrap}
+    .st-hero-split .btn{display:inline-block;text-decoration:none;font-weight:700;
+      padding:.95rem 1.9rem;border-radius:var(--st-radius-sm);
+      background:var(--st-accent);color:var(--st-ink-inv);transition:transform .25s var(--st-ease)}
+    .st-hero-split .btn:hover{transform:translateY(-2px)}
+    .st-hero-split .art{border-radius:var(--st-radius);overflow:clip;box-shadow:var(--st-shadow);
+      animation:st-hero-float 7s ease-in-out infinite alternate}
+    .st-hero-split .art img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/3}
+    @keyframes st-hero-float{from{transform:translateY(0)}to{transform:translateY(-12px)}}
+    @media (max-width:820px){
+      .st-hero-split .grid{grid-template-columns:1fr}
+      .st-hero-split .art{order:-1}
+    }
+    @media (prefers-reduced-motion:reduce){.st-hero-split .art{animation:none}}
+  </style>
+  <div class="st-wrap grid">
+    <div class="st-reveal">
+      <span class="st-eyebrow">HERO_EYEBROW</span>
+      <h1>HERO_HEADLINE.</h1>
+      <p class="lede">HERO_LEDE.</p>
+      <div class="actions">
+        <a class="btn" href="#">PRIMARY_CTA</a>
+      </div>
+    </div>
+    <div class="art st-reveal" style="--st-i:1">
+      <img src="assets/HERO_IMAGE.webp" alt="HERO_ALT" />
+    </div>
+  </div>
+</section>

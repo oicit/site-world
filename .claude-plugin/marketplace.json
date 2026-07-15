@@ -1,0 +1,18 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "site-world",
+  "description": "Agency-grade website builder as an agent skill: brief → style tiles → section-library assembly → screenshot QA loop.",
+  "owner": {
+    "name": "oicit",
+    "email": "hfgaoyan@gmail.com"
+  },
+  "plugins": [
+    {
+      "name": "site-world",
+      "source": "./",
+      "skills": ["./skills/site-world"],
+      "description": "Build a complete premium website through an enforced pipeline: creative-brief interview, pick-one-of-three style tiles frozen into design tokens, page blueprint assembled from a curated library of self-contained section templates, and a Playwright screenshot QA loop scored against a rubric — nothing ships until it passes. Output is plain static HTML/CSS/JS.",
+      "category": "design"
+    }
+  ]
+}

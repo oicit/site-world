@@ -1,0 +1,52 @@
+<!-- st:meta
+name: _base
+purpose: Page scaffold every assembled site starts from — reset, token import,
+  shared reveal observer. Not a visible section.
+interaction: .st-reveal elements get .st-in when 18% visible (once). Stagger
+  children by adding style="--st-i:N" (N=0,1,2…).
+mobile: n/a
+source: site-world S0
+-->
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>PROJECT_TITLE</title>
+  <meta name="description" content="PROJECT_DESCRIPTION" />
+  <link rel="stylesheet" href="theme.css" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--st-bg);color:var(--st-ink);
+      font-family:var(--st-font-body);font-size:var(--st-body);line-height:1.55;
+      overflow-x:clip}
+    img,video{max-width:100%;display:block}
+    a{color:inherit}
+    .st-wrap{max-width:var(--st-maxw);margin:0 auto;padding:0 var(--st-pad)}
+    section{padding-block:var(--st-gap)}
+    /* shared reveal */
+    .st-reveal{opacity:0;transform:translateY(26px);
+      transition:opacity var(--st-dur) var(--st-ease),transform var(--st-dur) var(--st-ease);
+      transition-delay:calc(var(--st-i,0)*90ms)}
+    .st-in{opacity:1;transform:none}
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      .st-reveal{opacity:1;transform:none;transition:none}
+    }
+  </style>
+</head>
+<body>
+  <!-- sections go here, in blueprint order -->
+  <script>
+    (function () {
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting) { e.target.classList.add('st-in'); io.unobserve(e.target); }
+      }), { threshold: 0.18 });
+      document.querySelectorAll('.st-reveal').forEach(n => io.observe(n));
+      window.__stIO = io; // sections adding late nodes can reuse it
+    })();
+  </script>
+</body>
+</html>
