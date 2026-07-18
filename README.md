@@ -4,6 +4,10 @@ An agent skill — for Claude Code, Codex, and any `SKILL.md`-compatible agent �
 that builds **complete, agency-grade websites** through an enforced pipeline,
 and ships nothing that hasn't passed a screenshot-driven QA loop.
 
+**Demo: [oicit.github.io/site-world](https://oicit.github.io/site-world/)** —
+the skill's own landing page, assembled by the skill from its own section
+library ([source](docs/index.html)), gated by its own QA harness.
+
 Output is always **plain static HTML/CSS/JS**. No framework, no platform, no
 lock-in — drop the folder on any static host.
 

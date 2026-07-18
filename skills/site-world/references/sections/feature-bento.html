@@ -11,7 +11,7 @@ source: site-world S0
     .st-bento header{max-width:60ch;margin-bottom:3rem}
     .st-bento header h2{font-family:var(--st-font-display);font-size:var(--st-h2);line-height:1.08;margin:0 0 .6rem}
     .st-bento header p{color:var(--st-ink-2);margin:0}
-    .st-bento .grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:200px;gap:1.1rem}
+    .st-bento .grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(200px,auto);gap:1.1rem}
     .st-bento .cell{background:var(--st-surface);border-radius:var(--st-radius);
       padding:1.6rem;display:flex;flex-direction:column;justify-content:flex-end;gap:.4rem;
       box-shadow:var(--st-shadow);transition:transform .3s var(--st-ease);overflow:clip;position:relative}
@@ -29,6 +29,7 @@ source: site-world S0
       .st-bento .grid{grid-template-columns:1fr;grid-auto-rows:auto}
       .st-bento .cell{min-height:150px}
       .st-bento .cell--anchor,.st-bento .cell--wide{grid-column:auto;grid-row:auto}
+      .st-bento .cell .tag{position:static;margin-bottom:.4rem}
     }
   </style>
   <div class="st-wrap">

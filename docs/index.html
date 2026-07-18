@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>site-world — websites built like a process, not a prompt</title>
+  <meta name="description" content="An agent skill that builds agency-grade websites: brief → style tiles → section library → screenshot QA loop. This page was assembled by the skill from its own section library." />
+  <link rel="stylesheet" href="theme.css" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;background:var(--st-bg);color:var(--st-ink);
+      font-family:var(--st-font-body);font-size:var(--st-body);line-height:1.55;
+      overflow-x:clip}
+    img,video{max-width:100%;display:block}
+    a{color:inherit}
+    .st-wrap{max-width:var(--st-maxw);margin:0 auto;padding:0 var(--st-pad)}
+    section{padding-block:var(--st-gap)}
+    .st-reveal{opacity:0;transform:translateY(26px);
+      transition:opacity var(--st-dur) var(--st-ease),transform var(--st-dur) var(--st-ease);
+      transition-delay:calc(var(--st-i,0)*90ms)}
+    .st-in{opacity:1;transform:none}
+    @media (prefers-reduced-motion:reduce){
+      html{scroll-behavior:auto}
+      .st-reveal{opacity:1;transform:none;transition:none}
+    }
+  </style>
+</head>
+<body>
+
+<!-- hero-type -->
+<section class="st-hero-type">
+  <style>
+    .st-hero-type{min-height:86svh;display:grid;align-items:center}
+    .st-hero-type .st-eyebrow{font-weight:700;font-size:var(--st-fine);
+      letter-spacing:.16em;text-transform:uppercase;color:var(--st-accent-2)}
+    .st-hero-type h1{font-family:var(--st-font-display);font-size:var(--st-h1);
+      line-height:1.02;letter-spacing:-.015em;margin:.6rem 0 1.4rem;max-width:15ch}
+    .st-hero-type h1 .line{display:block;overflow:clip}
+    .st-hero-type h1 .line>span{display:inline-block;transform:translateY(110%);
+      transition:transform .9s var(--st-ease);transition-delay:calc(var(--st-i,0)*120ms)}
+    .st-hero-type.st-in h1 .line>span{transform:none}
+    .st-hero-type h1 em{font-style:normal;color:var(--st-accent)}
+    .st-hero-type .lede{font-size:var(--st-h3);max-width:52ch;margin:0 0 2.2rem;color:var(--st-ink-2)}
+    .st-hero-type .lede code{font-family:var(--st-font-mono);font-size:.85em;color:var(--st-accent-2)}
+    .st-hero-type .actions{display:flex;gap:.8rem;flex-wrap:wrap}
+    .st-hero-type .btn{display:inline-block;text-decoration:none;font-weight:700;
+      padding:.95rem 1.9rem;border-radius:var(--st-radius-sm);
+      background:var(--st-accent);color:var(--st-ink-inv);
+      transition:transform .25s var(--st-ease)}
+    .st-hero-type .btn:hover{transform:translateY(-2px)}
+    .st-hero-type .btn--ghost{background:transparent;color:var(--st-ink);border:2px solid var(--st-ink)}
+    @media (prefers-reduced-motion:reduce){.st-hero-type h1 .line>span{transform:none;transition:none}}
+  </style>
+  <div class="st-wrap">
+    <span class="st-eyebrow">site-world — an agent skill</span>
+    <h1>
+      <span class="line"><span style="--st-i:0">Websites built like</span></span>
+      <span class="line"><span style="--st-i:1">a <em>process</em>, not a prompt.</span></span>
+    </h1>
+    <p class="lede">Brief → style tiles → section library → screenshot QA.
+      Agency-grade output every run — and this page was assembled by the skill
+      from its own library.</p>
+    <div class="actions">
+      <a class="btn" href="https://github.com/oicit/site-world">Install the skill</a>
+      <a class="btn btn--ghost" href="#pipeline">See the pipeline</a>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const s = document.currentScript.closest('section');
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { s.classList.add('st-in'); return; }
+      requestAnimationFrame(() => requestAnimationFrame(() => s.classList.add('st-in')));
+    })();
+  </script>
+</section>
+
+<!-- logo-marquee: what it composes with -->
+<section class="st-marquee" aria-label="Composes with">
+  <style>
+    .st-marquee{padding-block:calc(var(--st-gap)*.5);overflow:clip}
+    .st-marquee .title{text-align:center;font-weight:700;font-size:var(--st-fine);
+      letter-spacing:.14em;text-transform:uppercase;color:var(--st-accent-2);margin:0 0 1.6rem}
+    .st-marquee .track{display:flex;gap:4rem;width:max-content;
+      animation:st-marquee-roll 28s linear infinite}
+    .st-marquee:hover .track{animation-play-state:paused}
+    .st-marquee .logo{height:34px;display:flex;align-items:center;
+      font-family:var(--st-font-display);font-weight:700;font-size:1.15rem;white-space:nowrap}
+    @keyframes st-marquee-roll{to{transform:translateX(-50%)}}
+    @media (max-width:680px){.st-marquee .track{animation-duration:40s}}
+    @media (prefers-reduced-motion:reduce){
+      .st-marquee .track{animation:none;width:auto;flex-wrap:wrap;justify-content:center}
+      .st-marquee .track > *:nth-child(n+7){display:none}
+    }
+  </style>
+  <p class="title">Runs in your agent · composes with what you have</p>
+  <div class="track">
+    <span class="logo">Claude Code</span><span class="logo">Codex</span><span class="logo">GSAP</span>
+    <span class="logo">Playwright</span><span class="logo">scroll-world</span><span class="logo">image-gen skills</span>
+    <span class="logo" aria-hidden="true">Claude Code</span><span class="logo" aria-hidden="true">Codex</span><span class="logo" aria-hidden="true">GSAP</span>
+    <span class="logo" aria-hidden="true">Playwright</span><span class="logo" aria-hidden="true">scroll-world</span><span class="logo" aria-hidden="true">image-gen skills</span>
+  </div>
+</section>
+
+<!-- feature-bento -->
+<section class="st-bento">
+  <style>
+    .st-bento header{max-width:60ch;margin-bottom:3rem}
+    .st-bento header h2{font-family:var(--st-font-display);font-size:var(--st-h2);line-height:1.08;margin:0 0 .6rem}
+    .st-bento header p{color:var(--st-ink-2);margin:0}
+    .st-bento .grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(200px,auto);gap:1.1rem}
+    .st-bento .cell{background:var(--st-surface);border-radius:var(--st-radius);
+      padding:1.6rem;display:flex;flex-direction:column;justify-content:flex-end;gap:.4rem;
+      box-shadow:var(--st-shadow);transition:transform .3s var(--st-ease);overflow:clip;position:relative}
+    .st-bento .cell:hover{transform:translateY(-6px)}
+    .st-bento .cell h3{font-family:var(--st-font-display);font-size:var(--st-h3);margin:0}
+    .st-bento .cell p{margin:0;font-size:var(--st-fine);color:var(--st-ink-2)}
+    .st-bento .cell .tag{position:absolute;top:1.2rem;left:1.6rem;font-weight:700;
+      font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--st-accent)}
+    .st-bento .cell--anchor{grid-column:span 2;grid-row:span 2;
+      background:linear-gradient(150deg,var(--st-accent),var(--st-accent-2));color:var(--st-ink-inv)}
+    .st-bento .cell--anchor p{color:var(--st-ink-inv)}
+    .st-bento .cell--anchor .tag{color:var(--st-ink-inv)}
+    .st-bento .cell--wide{grid-column:span 2}
+    @media (max-width:880px){
+      .st-bento .grid{grid-template-columns:1fr;grid-auto-rows:auto}
+      .st-bento .cell{min-height:150px}
+      .st-bento .cell--anchor,.st-bento .cell--wide{grid-column:auto;grid-row:auto}
+      .st-bento .cell .tag{position:static;margin-bottom:.4rem}
+    }
+  </style>
+  <div class="st-wrap">
+    <header class="st-reveal">
+      <h2>Generators roll dice. This ships gates.</h2>
+      <p>Four disciplines separate a process from a prompt.</p>
+    </header>
+    <div class="grid">
+      <div class="cell cell--anchor st-reveal" style="--st-i:0">
+        <span class="tag">The core idea</span>
+        <h3>Taste, frozen as tokens</h3>
+        <p>You pick one of three style tiles; the winner becomes theme.css design
+        tokens. From then on, sections may only reference tokens — the QA harness
+        greps for raw hex and fails the build. Style drift becomes a detectable
+        error, not a vibe.</p>
+      </div>
+      <div class="cell st-reveal" style="--st-i:1">
+        <h3>Verified sections</h3>
+        <p>Pages assemble from self-contained templates — mobile behavior,
+        reduced-motion, CJK text effects already debugged.</p>
+      </div>
+      <div class="cell st-reveal" style="--st-i:2">
+        <h3>Screenshot QA loop</h3>
+        <p>Playwright shoots desktop, phone, and reduced-motion; a 10-dimension
+        rubric scores the shots. Below 4/5 anywhere? It iterates.</p>
+      </div>
+      <div class="cell cell--wide st-reveal" style="--st-i:3">
+        <h3>A library that compounds</h3>
+        <p>After every shipped project you harvest new sections back into the
+        library. Your tenth site is better than your first — one-shot generators
+        start from zero every time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- narrative-pin-steps: the pipeline -->
+<section class="st-pin-steps" id="pipeline">
+  <style>
+    .st-pin-steps .grid{display:grid;grid-template-columns:1fr 1.1fr;gap:4rem}
+    .st-pin-steps .steps{display:grid;gap:38vh;padding-block:12vh}
+    .st-pin-steps .step h3{font-family:var(--st-font-display);font-size:var(--st-h2);
+      line-height:1.08;margin:0 0 .8rem}
+    .st-pin-steps .step .num{font-family:var(--st-font-mono);font-weight:700;
+      font-size:var(--st-fine);color:var(--st-accent)}
+    .st-pin-steps .step p{color:var(--st-ink-2);max-width:40ch;margin:0}
+    .st-pin-steps .stage{position:sticky;top:12vh;height:76vh;border-radius:var(--st-radius);
+      overflow:clip;box-shadow:var(--st-shadow)}
+    .st-pin-steps .stage-wrap{align-self:start;position:relative}
+    .st-pin-steps .visual{position:absolute;inset:0;opacity:0;transform:scale(1.04);
+      transition:opacity .6s var(--st-ease),transform .6s var(--st-ease)}
+    .st-pin-steps .visual.is-on{opacity:1;transform:none}
+    .st-pin-steps .visual .ph{width:100%;height:100%;display:grid;place-items:center;
+      font-family:var(--st-font-mono);font-weight:700;font-size:clamp(1rem,2vw,1.5rem);
+      color:var(--st-ink-inv);text-align:center;padding:2rem}
+    @media (max-width:880px){
+      .st-pin-steps .grid{grid-template-columns:1fr}
+      .st-pin-steps .stage-wrap{display:none}
+      .st-pin-steps .steps{gap:3.5rem;padding-block:0}
+      .st-pin-steps .step .m-visual{display:block;margin-top:1.2rem;border-radius:var(--st-radius);overflow:clip}
+      .st-pin-steps .step .m-visual .ph{aspect-ratio:4/3;display:grid;place-items:center;
+        font-family:var(--st-font-mono);font-weight:700;color:var(--st-ink-inv)}
+    }
+    @media (min-width:881px){.st-pin-steps .step .m-visual{display:none}}
+    @media (prefers-reduced-motion:reduce){.st-pin-steps .visual{transition:none}}
+  </style>
+  <div class="st-wrap grid">
+    <div class="steps">
+      <div class="step" data-visual="v1">
+        <span class="num">01</span><h3>Brief, then three tiles.</h3>
+        <p>The skill interviews you for the page's one job, writes a creative
+        brief to a file, and renders three contrasting style tiles as real pages.
+        You pick. The winner freezes into theme.css.</p>
+        <div class="m-visual"><div class="ph" style="background:var(--st-accent)">brief.md → theme.css</div></div>
+      </div>
+      <div class="step" data-visual="v2">
+        <span class="num">02</span><h3>Blueprint, then assembly.</h3>
+        <p>Sections come from a catalog — heroes, scrollytelling, bento grids,
+        proof bands — each self-contained and token-only. You cut and reorder the
+        blueprint before a line is written.</p>
+        <div class="m-visual"><div class="ph" style="background:var(--st-accent-2)">INDEX.md → index.html</div></div>
+      </div>
+      <div class="step" data-visual="v3">
+        <span class="num">03</span><h3>QA until it passes.</h3>
+        <p>Full-page screenshots at two widths plus reduced-motion; overflow,
+        console, token, and weight checks; a scored rubric. The loop repeats
+        until every dimension clears — then you get the site and the scorecard.</p>
+        <div class="m-visual"><div class="ph" style="background:var(--st-surface)">qa-out/report.json ✓</div></div>
+      </div>
+    </div>
+    <div class="stage-wrap">
+      <div class="stage">
+        <div class="visual is-on" id="v1"><div class="ph" style="background:var(--st-accent)">brief.md<br/>↓<br/>tile-1 · tile-2 · tile-3<br/>↓<br/>theme.css (frozen)</div></div>
+        <div class="visual" id="v2"><div class="ph" style="background:var(--st-accent-2)">INDEX.md<br/>↓<br/>hero + bento + stats + cta<br/>↓<br/>index.html</div></div>
+        <div class="visual" id="v3"><div class="ph" style="background:var(--st-surface);color:var(--st-ink)">desktop.png · phone.png<br/>reduced-motion.png<br/>↓<br/>rubric ≥ 4/5 × 10 → ship</div></div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      const s = document.currentScript.closest('section');
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        if (!e.isIntersecting) return;
+        const id = e.target.dataset.visual;
+        s.querySelectorAll('.visual').forEach(v => v.classList.toggle('is-on', v.id === id));
+      }), { rootMargin: '-45% 0px -45% 0px' });
+      s.querySelectorAll('.step').forEach(n => io.observe(n));
+    })();
+  </script>
+</section>
+
+<!-- stats-counter -->
+<section class="st-stats">
+  <style>
+    .st-stats{background:var(--st-ink);color:var(--st-ink-inv)}
+    .st-stats .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:2.5rem}
+    .st-stats .stat{min-width:0}
+    .st-stats .stat .n{font-family:var(--st-font-display);font-size:clamp(2.6rem,5.5vw,4.4rem);
+      line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em;overflow-wrap:anywhere}
+    .st-stats .stat .n em{font-style:normal;color:var(--st-warn)}
+    .st-stats .stat .label{margin-top:.5rem;font-weight:600;font-size:var(--st-fine);
+      letter-spacing:.08em;text-transform:uppercase;color:var(--st-accent)}
+    @media (max-width:680px){.st-stats .grid{grid-template-columns:1fr 1fr;gap:2rem}}
+  </style>
+  <div class="st-wrap grid">
+    <div class="stat st-reveal"><div class="n"><span data-to="14">0</span></div><div class="label">section templates</div></div>
+    <div class="stat st-reveal" style="--st-i:1"><div class="n"><span data-to="10">0</span></div><div class="label">rubric dimensions</div></div>
+    <div class="stat st-reveal" style="--st-i:2"><div class="n"><span data-to="3">0</span></div><div class="label">QA passes per build</div></div>
+    <div class="stat st-reveal" style="--st-i:3"><div class="n"><span data-to="0">0</span></div><div class="label">runtime dependencies</div></div>
+  </div>
+  <script>
+    (function () {
+      const s = document.currentScript.closest('section');
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const fmt = (v, dp) => Number(v).toLocaleString(undefined,
+        { minimumFractionDigits: dp, maximumFractionDigits: dp });
+      function run(el) {
+        const to = parseFloat(el.dataset.to), dp = +(el.dataset.dp || 0), t0 = performance.now();
+        if (!isFinite(to)) return;
+        if (reduce) { el.textContent = fmt(to, dp); return; }
+        (function tick(t) {
+          const p = Math.min((t - t0) / 1200, 1), e = 1 - Math.pow(1 - p, 3);
+          el.textContent = fmt(to * e, dp);
+          if (p < 1) requestAnimationFrame(tick);
+        })(t0);
+      }
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting) { run(e.target); io.unobserve(e.target); }
+      }), { threshold: 0.6 });
+      s.querySelectorAll('[data-to]').forEach(n => io.observe(n));
+    })();
+  </script>
+</section>
+
+<!-- horizontal-scroll: the section catalog -->
+<section class="st-hrail">
+  <style>
+    .st-hrail header{max-width:60ch;margin-bottom:2.4rem}
+    .st-hrail header h2{font-family:var(--st-font-display);font-size:var(--st-h2);line-height:1.08;margin:0 0 .6rem}
+    .st-hrail header p{color:var(--st-ink-2);margin:0}
+    .st-hrail .rail{display:flex;gap:1.2rem;overflow-x:auto;scroll-snap-type:x mandatory;
+      padding:0 var(--st-pad) 1.2rem;scrollbar-width:none;cursor:grab}
+    .st-hrail .rail::-webkit-scrollbar{display:none}
+    .st-hrail .rail.dragging{cursor:grabbing;scroll-snap-type:none}
+    .st-hrail .panel{flex:0 0 min(420px,82vw);scroll-snap-align:start;
+      background:var(--st-surface);border-radius:var(--st-radius);box-shadow:var(--st-shadow);
+      overflow:clip;display:flex;flex-direction:column}
+    .st-hrail .panel .media{aspect-ratio:16/10;display:grid;place-items:center;
+      font-family:var(--st-font-mono);font-weight:700;color:var(--st-ink-inv)}
+    .st-hrail .panel .body{padding:1.4rem}
+    .st-hrail .panel h3{font-family:var(--st-font-display);font-size:var(--st-h3);margin:0 0 .4rem}
+    .st-hrail .panel p{margin:0;font-size:var(--st-fine);color:var(--st-ink-2)}
+  </style>
+  <div class="st-wrap">
+    <header class="st-reveal"><h2>The library, at a glance.</h2>
+      <p>Every panel is a template in <span style="font-family:var(--st-font-mono)">references/sections/</span> —
+      this page is built from them.</p></header>
+  </div>
+  <div class="rail">
+    <article class="panel"><div class="media" style="background:linear-gradient(140deg,var(--st-accent),var(--st-accent-2))">hero-type</div>
+      <div class="body"><h3>Heroes ×3</h3><p>Typography-led, split, or a scroll-scrubbed video fly-through via scroll-world.</p></div></article>
+    <article class="panel"><div class="media" style="background:var(--st-accent)">narrative-pin-steps</div>
+      <div class="body"><h3>Scrollytelling</h3><p>Sticky stage, copy scrolls past, visuals swap per beat — the section above you.</p></div></article>
+    <article class="panel"><div class="media" style="background:var(--st-accent-2)">feature-bento</div>
+      <div class="body"><h3>Bento grid</h3><p>One flagship cell plus supporting features; staggered reveal, hover lift.</p></div></article>
+    <article class="panel"><div class="media" style="background:var(--st-ink);color:var(--st-ink-inv)">stats-counter</div>
+      <div class="body"><h3>Proof bands</h3><p>Count-up numbers, logo marquee, testimonial cards — evidence, three ways.</p></div></article>
+    <article class="panel"><div class="media" style="background:var(--st-surface-2);color:var(--st-ink)">quote-card</div>
+      <div class="body"><h3>The peak line</h3><p>One full-bleed statement, word-by-word rise, CJK-aware splitting.</p></div></article>
+    <article class="panel"><div class="media" style="background:linear-gradient(140deg,var(--st-accent-2),var(--st-warn))">cta-final</div>
+      <div class="body"><h3>The close</h3><p>One ask, restated promise, then a deliberately quiet footer.</p></div></article>
+  </div>
+  <script>
+    (function () {
+      const rail = document.currentScript.closest('section').querySelector('.rail');
+      let down = false, sx = 0, sl = 0;
+      rail.addEventListener('pointerdown', e => {
+        if (e.pointerType !== 'mouse') return;
+        down = true; sx = e.clientX; sl = rail.scrollLeft; rail.classList.add('dragging');
+      });
+      addEventListener('pointermove', e => { if (down) rail.scrollLeft = sl - (e.clientX - sx); });
+      addEventListener('pointerup', () => { down = false; rail.classList.remove('dragging'); });
+    })();
+  </script>
+</section>
+
+<!-- quote-card -->
+<section class="st-quote">
+  <style>
+    .st-quote{background:var(--st-surface-2);text-align:center;
+      padding-block:calc(var(--st-gap)*1.25)}
+    .st-quote blockquote{margin:0 auto;max-width:24ch;overflow-wrap:anywhere;
+      font-family:var(--st-font-display);font-size:clamp(1.9rem,4.6vw,3.6rem);
+      line-height:1.18;letter-spacing:-.01em}
+    .st-quote blockquote .w{display:inline-block;opacity:0;transform:translateY(.5em);
+      transition:opacity .55s var(--st-ease),transform .55s var(--st-ease);
+      transition-delay:calc(var(--st-i,0)*70ms)}
+    .st-quote.st-in blockquote .w{opacity:1;transform:none}
+    .st-quote cite{display:block;margin-top:1.6rem;font-style:normal;font-weight:700;
+      font-size:var(--st-fine);letter-spacing:.12em;text-transform:uppercase;color:var(--st-accent)}
+    @media (prefers-reduced-motion:reduce){.st-quote blockquote .w{opacity:1;transform:none;transition:none}}
+  </style>
+  <div class="st-wrap">
+    <blockquote data-split>Style drift is a detectable error, not a vibe.</blockquote>
+    <cite>site-world design rules</cite>
+  </div>
+  <script>
+    (function () {
+      const s = document.currentScript.closest('section');
+      const q = s.querySelector('[data-split]');
+      const text = q.textContent.trim();
+      const parts = /[一-鿿]/.test(text) ? [...text] : text.split(/\s+/);
+      q.innerHTML = parts.map((w, i) =>
+        `<span class="w" style="--st-i:${i}">${w}</span>`).join(/[一-鿿]/.test(text) ? '' : ' ');
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { s.classList.add('st-in'); return; }
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting) { s.classList.add('st-in'); io.disconnect(); }
+      }), { threshold: 0.6 });
+      io.observe(q);
+    })();
+  </script>
+</section>
+
+<!-- cta-final -->
+<section class="st-cta">
+  <style>
+    .st-cta .panel{background:linear-gradient(150deg,var(--st-accent),var(--st-accent-2));
+      color:var(--st-ink-inv);border-radius:calc(var(--st-radius)*1.5);
+      padding:clamp(2.5rem,7vw,5rem);text-align:center;box-shadow:var(--st-shadow)}
+    .st-cta h2{font-family:var(--st-font-display);font-size:var(--st-h2);
+      line-height:1.06;margin:0 auto 1rem;max-width:22ch}
+    .st-cta p{margin:0 auto 2.2rem;max-width:48ch}
+    .st-cta .btn{display:inline-block;text-decoration:none;font-weight:800;
+      font-size:1.05rem;padding:1.05rem 2.6rem;border-radius:var(--st-radius-sm);
+      background:var(--st-ink-inv);color:var(--st-ink);
+      animation:st-cta-pulse 2.2s var(--st-ease) 3;transition:transform .25s var(--st-ease)}
+    .st-cta .btn:hover{transform:translateY(-3px)}
+    .st-cta .fine{margin-top:1.2rem;font-size:var(--st-fine);font-weight:600;
+      font-family:var(--st-font-mono)}
+    @keyframes st-cta-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
+    @media (max-width:640px){.st-cta .btn{display:block}}
+    @media (prefers-reduced-motion:reduce){.st-cta .btn{animation:none}}
+  </style>
+  <div class="st-wrap">
+    <div class="panel st-reveal">
+      <h2>Your next site, built with gates.</h2>
+      <p>Install the skill, describe the page, pick a tile — and nothing ships
+      until the rubric says so.</p>
+      <a class="btn" href="https://github.com/oicit/site-world">Get site-world on GitHub</a>
+      <p class="fine">/plugin marketplace add oicit/site-world</p>
+    </div>
+  </div>
+</section>
+
+<!-- footer -->
+<footer class="st-footer">
+  <style>
+    .st-footer{background:var(--st-ink);color:var(--st-ink-inv);
+      padding:calc(var(--st-gap)*.7) 0 2.5rem;margin-top:var(--st-gap)}
+    .st-footer .grid{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:2.5rem}
+    .st-footer .brand{font-family:var(--st-font-display);font-weight:800;font-size:1.4rem}
+    .st-footer .tagline{margin:.7rem 0 0;max-width:30ch;font-size:var(--st-fine)}
+    .st-footer h3{font-size:var(--st-fine);font-weight:700;letter-spacing:.1em;
+      text-transform:uppercase;color:var(--st-accent);margin:0 0 1rem}
+    .st-footer ul{list-style:none;margin:0;padding:0;display:grid;gap:.55rem}
+    .st-footer a{text-decoration:none;font-size:.95rem;font-weight:500}
+    .st-footer a:hover{color:var(--st-accent)}
+    .st-footer .fine{margin-top:3rem;padding-top:1.5rem;
+      border-top:1px solid var(--st-accent);display:flex;justify-content:space-between;
+      gap:1rem;flex-wrap:wrap;font-size:var(--st-fine)}
+    @media (max-width:880px){.st-footer .grid{grid-template-columns:1fr 1fr}}
+    @media (max-width:560px){.st-footer .grid{grid-template-columns:1fr}}
+  </style>
+  <div class="st-wrap">
+    <div class="grid">
+      <div><span class="brand">site-world</span>
+        <p class="tagline">Agency-grade websites as an enforced pipeline, for any
+        SKILL.md-compatible agent.</p></div>
+      <nav><h3>Repo</h3><ul>
+        <li><a href="https://github.com/oicit/site-world">GitHub</a></li>
+        <li><a href="https://github.com/oicit/site-world/issues">Issues</a></li></ul></nav>
+      <nav><h3>Skill</h3><ul>
+        <li><a href="https://github.com/oicit/site-world/blob/main/skills/site-world/SKILL.md">SKILL.md</a></li>
+        <li><a href="https://github.com/oicit/site-world/blob/main/skills/site-world/references/sections/INDEX.md">Section catalog</a></li>
+        <li><a href="https://github.com/oicit/site-world/blob/main/skills/site-world/references/qa-rubric.md">QA rubric</a></li></ul></nav>
+      <nav><h3>Related</h3><ul>
+        <li><a href="https://github.com/oso95/scroll-world">scroll-world</a></li></ul></nav>
+    </div>
+    <div class="fine"><span>© 2026 oicit. MIT licensed.</span>
+      <span>Built by site-world, from its own sections.</span></div>
+  </div>
+</footer>
+
+<script>
+  (function () {
+    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    const io = new IntersectionObserver(es => es.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('st-in'); io.unobserve(e.target); }
+    }), { threshold: 0.18 });
+    document.querySelectorAll('.st-reveal').forEach(n => io.observe(n));
+  })();
+</script>
+</body>
+</html>
