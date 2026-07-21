@@ -17,10 +17,11 @@ SECTIONS = HERE / "sections"
 SKIP = {"_base.html", "hero-scroll-video.html"}
 ORDER = [
     "hero-type.html", "hero-split.html", "logo-marquee.html",
-    "feature-bento.html", "narrative-pin-steps.html", "stats-counter.html",
-    "narrative-parallax.html", "horizontal-scroll.html",
-    "testimonial-cards.html", "quote-card.html", "cta-final.html",
-    "footer.html",
+    "rules-marquee.html", "feature-bento.html", "feature-spec-table.html",
+    "narrative-pin-steps.html", "narrative-terminal-steps.html",
+    "stats-counter.html", "narrative-parallax.html", "horizontal-scroll.html",
+    "testimonial-cards.html", "quote-card.html", "verdict-stamp.html",
+    "cta-final.html", "footer.html",
 ]
 
 theme = Path(sys.argv[1]) if len(sys.argv) > 1 else HERE / "theme-tokens.css"

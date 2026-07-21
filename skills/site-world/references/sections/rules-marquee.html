@@ -1,0 +1,40 @@
+<!-- st:meta
+name: rules-marquee
+purpose: Values / principles / rules as a big outlined-stroke word marquee on an
+  ink band — the "manifesto strip". Use for short punchy statements (2–5 words
+  each), not logos (use logo-marquee for those).
+interaction: CSS-only infinite scroll (duplicated track); pauses on hover;
+  static wrapped row under reduced-motion.
+mobile: same, slower duration.
+source: site-world demo (AUDIT PAPER, 2026-07)
+-->
+<section class="st-rules" aria-label="Principles">
+  <style>
+    .st-rules{padding-block:calc(var(--st-gap)*.5);overflow:clip;
+      background:var(--st-ink);color:var(--st-bg);border-block:2px solid var(--st-ink)}
+    .st-rules .lane{display:flex;gap:0;width:max-content;
+      animation:st-rules-roll 32s linear infinite}
+    .st-rules:hover .lane{animation-play-state:paused}
+    .st-rules .item{font-family:var(--st-font-display);font-weight:800;
+      font-size:clamp(2rem,6vw,4.6rem);line-height:1;white-space:nowrap;
+      padding:0 2.4rem;-webkit-text-stroke:1.4px var(--st-bg);color:transparent}
+    .st-rules .item.solid{color:var(--st-accent);-webkit-text-stroke:0}
+    .st-rules .item .x{color:var(--st-bg);-webkit-text-stroke:0;font-style:italic;font-weight:400}
+    @keyframes st-rules-roll{to{transform:translateX(-50%)}}
+    @media (max-width:680px){.st-rules .lane{animation-duration:44s}}
+    @media (prefers-reduced-motion:reduce){
+      .st-rules .lane{animation:none;width:auto;flex-wrap:wrap;justify-content:center;gap:.4rem 0}
+      .st-rules .lane > *:nth-child(n+6){display:none}   /* hide the duplicate set */
+    }
+  </style>
+  <!-- author set A (5 items), then DUPLICATE it (aria-hidden) for the seamless
+       loop. Use <span class="x"> inside an item to drop one word back to solid. -->
+  <div class="lane">
+    <span class="item">RULE_ONE</span><span class="item solid">RULE_TWO</span>
+    <span class="item">RULE_THREE</span><span class="item"><span class="x">WORD</span> RULE_FOUR</span>
+    <span class="item solid">RULE_FIVE</span>
+    <span class="item" aria-hidden="true">RULE_ONE</span><span class="item solid" aria-hidden="true">RULE_TWO</span>
+    <span class="item" aria-hidden="true">RULE_THREE</span><span class="item" aria-hidden="true"><span class="x">WORD</span> RULE_FOUR</span>
+    <span class="item solid" aria-hidden="true">RULE_FIVE</span>
+  </div>
+</section>

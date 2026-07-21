@@ -1,0 +1,73 @@
+<!-- st:meta
+name: verdict-stamp
+purpose: Proof interlude — one centered statement that rises word-by-word, then
+  a rubber-stamp seal thunks in (rotated, scales up). For a verdict, a
+  guarantee, a certified claim. Use once; a second stamp cheapens the first.
+interaction: words rise on entry (CJK-aware split); the stamp scales from small
+  to full with a slight rotation after the words land. reduced-motion shows the
+  settled statement + stamp immediately.
+mobile: type scales via clamp; stamp shrinks. Nothing reflows.
+source: site-world demo (AUDIT PAPER, 2026-07)
+-->
+<section class="st-verdict">
+  <style>
+    .st-verdict{text-align:center;background:var(--st-surface-2)}
+    .st-verdict .quote{font-family:var(--st-font-display);font-weight:500;
+      font-size:clamp(2rem,5.2vw,4.2rem);line-height:1.1;letter-spacing:-.01em;
+      max-width:20ch;margin:0 auto;overflow-wrap:anywhere}
+    .st-verdict .quote em{font-style:italic;color:var(--st-accent)}
+    .st-verdict .quote .w{display:inline-block;opacity:0;transform:translateY(.4em) rotate(1deg);
+      transition:opacity .5s var(--st-ease),transform .5s var(--st-ease);
+      transition-delay:calc(var(--st-i,0)*55ms)}
+    .st-verdict.st-in .quote .w{opacity:1;transform:none}
+    .st-verdict .stamp{display:inline-grid;place-items:center;margin-top:3rem;
+      width:150px;height:150px;border:3px solid var(--st-ok);border-radius:50%;
+      color:var(--st-ok);font-family:var(--st-font-mono);font-weight:600;
+      transform:rotate(-11deg) scale(.7);opacity:0;
+      transition:transform .5s var(--st-ease) .55s,opacity .4s .55s}
+    .st-verdict.st-in .stamp{transform:rotate(-11deg) scale(1);opacity:.92}
+    .st-verdict .stamp b{font-family:var(--st-font-display);font-weight:800;
+      font-size:2rem;letter-spacing:.05em;line-height:1}
+    .st-verdict .stamp small{font-size:.58rem;letter-spacing:.14em;margin-top:.35rem}
+    .st-verdict .stamp .ring{font-size:.5rem;letter-spacing:.24em;margin-bottom:.3rem}
+    @media (prefers-reduced-motion:reduce){
+      .st-verdict .quote .w{opacity:1;transform:none;transition:none}
+      .st-verdict .stamp{opacity:.92;transition:none}}
+  </style>
+  <div class="st-wrap">
+    <!-- wrap the emphasis in <em>…</em>; it rises as one unit -->
+    <p class="quote" data-split>VERDICT_STATEMENT with an <em>emphasis,</em> then a close.</p>
+    <div class="stamp"><span class="ring">◦ STAMP_RING ◦</span><b>STAMP</b><small>STAMP_SUB</small></div>
+  </div>
+  <script>
+    (function () {
+      var s = document.currentScript.closest('section');
+      var q = s.querySelector('[data-split]');
+      var cjk = /[一-鿿]/;
+      var out = '', i = 0;
+      [].slice.call(q.childNodes).forEach(function (n) {
+        if (n.nodeType === 3) {
+          var text = n.textContent;
+          if (cjk.test(text)) {
+            [].forEach.call(text, function (ch) {
+              out += /\s/.test(ch) ? ch : '<span class="w" style="--st-i:' + (i++) + '">' + ch + '</span>';
+            });
+          } else {
+            text.split(/(\s+)/).forEach(function (t) {
+              if (/^\s+$/.test(t)) out += t;
+              else if (t) out += '<span class="w" style="--st-i:' + (i++) + '">' + t + '</span>';
+            });
+          }
+        } else {
+          out += '<em class="w" style="--st-i:' + (i++) + '">' + n.textContent + '</em>';
+        }
+      });
+      q.innerHTML = out;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { s.classList.add('st-in'); return; }
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) { s.classList.add('st-in'); io.disconnect(); } });
+      }, { threshold: 0.5 });
+      io.observe(s);
+    })();
+  </script>
+</section>

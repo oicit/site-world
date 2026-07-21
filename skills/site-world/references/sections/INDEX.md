@@ -12,11 +12,15 @@ they all mount into (provides `.st-wrap`, `.st-reveal`, the shared observer).
 | `hero-split.html` | hero | strong hero image / product render | reveal + slow float |
 | `hero-scroll-video.html` | hero | cinematic fly-through (scroll-world sub-pipeline) | scroll-scrubbed video |
 | `narrative-pin-steps.html` | story | how-it-works, process, 3–5 beats | sticky stage, visuals swap per step |
+| `narrative-terminal-steps.html` | story | dev-tool / technical process | sticky terminal types each step's log |
 | `narrative-parallax.html` | breather | statement between dense sections | layered rAF parallax |
 | `feature-bento.html` | features | 4–7 features, one flagship | staggered cells, hover lift |
+| `feature-spec-table.html` | features | editorial "principles / specs" list | numbered rows, hover tint |
 | `stats-counter.html` | proof | numbers are the argument | count-up on entry |
 | `quote-card.html` | peak | ONE emotional line per page | word-by-word rise (CJK-aware) |
+| `verdict-stamp.html` | peak | a verdict / guarantee, once | words rise, then a stamp thunks in |
 | `logo-marquee.html` | proof | 5+ recognizable logos | CSS infinite marquee, hover pause |
+| `rules-marquee.html` | manifesto | short values/rules (2–5 words each) | outlined-word marquee on ink |
 | `horizontal-scroll.html` | gallery | lineup / timeline / portfolio pieces | snap rail, drag on desktop |
 | `testimonial-cards.html` | proof | 2–3 short quotes with faces | staggered reveal |
 | `cta-final.html` | close | always, second-to-last | subtle pulse ×3 |

@@ -1,0 +1,120 @@
+<!-- st:meta
+name: narrative-terminal-steps
+purpose: Scrollytelling for technical/dev-tool products — step copy scrolls on
+  the left while a sticky terminal on the right TYPES that step's log as it
+  enters focus. The "show the tool actually running" section.
+interaction: position:sticky terminal (no scroll hijack); IntersectionObserver
+  picks the active step and types its data-log. Lines are colored by prefix:
+  "$ " = command, "✓" = success, "?"/"›" = dim note. reduced-motion prints
+  each step's log instantly (no typing, no cursor).
+mobile: single column; terminal moves above the steps and stays; typing still
+  fires per step as you scroll.
+source: site-world demo (AUDIT PAPER, 2026-07)
+-->
+<section class="st-termsteps">
+  <style>
+    .st-termsteps .grid{display:grid;grid-template-columns:1fr 1.05fr;gap:4rem;align-items:start}
+    .st-termsteps .steps{display:grid;gap:34vh;padding-block:8vh}
+    .st-termsteps .step .no{font-family:var(--st-font-mono);font-weight:600;
+      font-size:var(--st-fine);color:var(--st-accent);letter-spacing:.06em}
+    .st-termsteps .step h3{font-family:var(--st-font-display);font-weight:600;
+      font-size:var(--st-h2);line-height:1.02;margin:.4rem 0 .9rem}
+    .st-termsteps .step p{color:var(--st-ink-2);max-width:38ch;margin:0;line-height:1.55}
+    .st-termsteps .step p b{color:var(--st-ink);font-weight:600}
+    .st-termsteps .stage-wrap{position:sticky;top:18vh;align-self:start}
+    .st-termsteps .term{background:var(--st-ink);border:2px solid var(--st-ink);
+      box-shadow:var(--st-shadow);font-family:var(--st-font-mono);font-size:.82rem;
+      color:var(--st-ink-inv)}
+    .st-termsteps .term .bar{display:flex;align-items:center;gap:.5rem;padding:.6rem .9rem;
+      border-bottom:1px solid color-mix(in srgb,var(--st-ink-inv) 22%,transparent)}
+    .st-termsteps .term .bar i{width:9px;height:9px;border-radius:50%;
+      background:color-mix(in srgb,var(--st-ink-inv) 40%,transparent)}
+    .st-termsteps .term .bar i:first-child{background:var(--st-accent)}
+    .st-termsteps .term .bar span{margin-left:auto;font-size:.72rem;
+      color:color-mix(in srgb,var(--st-ink-inv) 55%,transparent)}
+    .st-termsteps .term .body{padding:1.1rem;white-space:pre-wrap;line-height:1.65;
+      min-height:15rem}
+    .st-termsteps .term .k{color:var(--st-accent)}
+    .st-termsteps .term .g{color:var(--st-ok)}
+    .st-termsteps .term .d{color:color-mix(in srgb,var(--st-ink-inv) 55%,transparent)}
+    .st-termsteps .term .cur{display:inline-block;width:.55em;height:1.05em;
+      background:var(--st-ink-inv);vertical-align:-.15em;animation:st-blink 1s steps(2) infinite}
+    @keyframes st-blink{50%{opacity:0}}
+    @media (max-width:820px){
+      .st-termsteps .grid{grid-template-columns:1fr;gap:1.5rem}
+      .st-termsteps .stage-wrap{position:static;order:-1;margin-bottom:1rem}
+      .st-termsteps .steps{gap:3rem;padding-block:0}
+      .st-termsteps .step p{max-width:none}
+    }
+    @media (prefers-reduced-motion:reduce){.st-termsteps .term .cur{animation:none}}
+  </style>
+  <div class="st-wrap">
+    <div class="grid">
+      <div class="steps">
+        <!-- data-log lines split on "||"; prefix a line with "$ " (command),
+             "✓" (success) or "?"/"›" (dim note) to color it -->
+        <div class="step" data-log="$ CMD_ONE||OUTPUT_LINE||✓ RESULT_ONE">
+          <span class="no">STEP 01</span><h3>STEP_1_TITLE</h3>
+          <p>STEP_1_BODY — <b>the key claim</b> in bold.</p>
+        </div>
+        <div class="step" data-log="$ CMD_TWO||? a note line||✓ RESULT_TWO">
+          <span class="no">STEP 02</span><h3>STEP_2_TITLE</h3>
+          <p>STEP_2_BODY</p>
+        </div>
+        <div class="step" data-log="$ CMD_THREE||OUTPUT_LINE||OUTPUT_LINE||✓ RESULT_THREE">
+          <span class="no">STEP 03</span><h3>STEP_3_TITLE</h3>
+          <p>STEP_3_BODY</p>
+        </div>
+      </div>
+      <div class="stage-wrap">
+        <div class="term">
+          <div class="bar"><i></i><i></i><i></i><span>run.log</span></div>
+          <div class="body"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    (function () {
+      var s = document.currentScript.closest('section');
+      var body = s.querySelector('.term .body');
+      var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function esc(t){return t.replace(/[&<>]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;'}[c];});}
+      function lineHtml(line){
+        var cls = '';
+        if (line.indexOf('$ ') === 0) cls = 'k';
+        else if (line.charAt(0) === '✓') cls = 'g';
+        else if (line.charAt(0) === '?' || line.charAt(0) === '›') cls = 'd';
+        return '<span class="' + cls + '">' + esc(line) + '</span>';
+      }
+      var lines = [], cur = null, timer = null;
+      function paint(done, partial, blink){
+        var html = done.map(lineHtml).join('\n');
+        if (done.length && partial != null) html += '\n';
+        if (partial != null) html += lineHtml(partial);
+        if (blink) html += '<span class="cur"></span>';
+        body.innerHTML = html;
+      }
+      function play(step){
+        if (cur === step) return; cur = step;
+        clearTimeout(timer);
+        lines = (step.dataset.log || '').split('||');
+        if (reduce) { paint(lines, null, false); return; }
+        var li = 0, ci = 0, done = [];
+        (function tick(){
+          if (li >= lines.length) { paint(done, null, true); return; }
+          var full = lines[li], partial = full.slice(0, ci);
+          paint(done, partial, true);
+          if (ci < full.length) { ci++; timer = setTimeout(tick, 20); }
+          else { done.push(full); li++; ci = 0; timer = setTimeout(tick, 260); }
+        })();
+      }
+      var steps = [].slice.call(s.querySelectorAll('.step'));
+      play(steps[0]);
+      var io = new IntersectionObserver(function (es) {
+        es.forEach(function (e) { if (e.isIntersecting) play(e.target); });
+      }, { rootMargin: '-40% 0px -40% 0px' });
+      steps.forEach(function (n) { io.observe(n); });
+    })();
+  </script>
+</section>

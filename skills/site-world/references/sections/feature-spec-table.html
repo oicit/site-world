@@ -1,0 +1,53 @@
+<!-- st:meta
+name: feature-spec-table
+purpose: Editorial alternative to feature-bento — numbered spec rows (NO / title
+  / description) that read like a printed specification sheet. For technical,
+  editorial, or "principles / how it works" content where a grid feels too soft.
+interaction: rows reveal staggered; hover tints the row background.
+mobile: number + title stack, description drops to full width below.
+source: site-world demo (AUDIT PAPER, 2026-07)
+-->
+<section class="st-spec">
+  <style>
+    .st-spec .lede{font-family:var(--st-font-display);font-weight:600;
+      font-size:var(--st-h2);line-height:1.04;max-width:16ch;margin:0 0 3rem}
+    .st-spec .lede em{font-style:italic;color:var(--st-accent)}
+    .st-spec .rows{border-top:2px solid var(--st-ink)}
+    .st-spec .row{display:grid;grid-template-columns:4.5rem 1fr 1.4fr;gap:1.5rem;
+      align-items:baseline;padding:1.6rem 0;border-bottom:2px solid var(--st-ink);
+      transition:background .3s var(--st-ease)}
+    .st-spec .row:hover{background:var(--st-surface)}
+    .st-spec .row .no{font-family:var(--st-font-mono);font-size:var(--st-fine);
+      color:var(--st-accent);font-weight:700}
+    .st-spec .row h3{font-family:var(--st-font-display);font-weight:600;
+      font-size:clamp(1.4rem,2.6vw,2.1rem);line-height:1.02;margin:0}
+    .st-spec .row p{margin:0;color:var(--st-ink-2);font-size:.98rem;line-height:1.5}
+    .st-spec .row p b{color:var(--st-ink);font-weight:600}
+    @media (max-width:760px){
+      .st-spec .row{grid-template-columns:2.5rem 1fr;gap:.4rem 1rem}
+      .st-spec .row p{grid-column:1/-1;margin-top:.4rem}
+    }
+  </style>
+  <div class="st-wrap">
+    <h2 class="lede st-reveal">SPEC_HEADLINE with an <em>emphasis.</em></h2>
+    <div class="rows">
+      <!-- one .row per spec; keep 3–6 -->
+      <div class="row st-reveal">
+        <span class="no">01</span><h3>SPEC_1_TITLE</h3>
+        <p>SPEC_1_BODY — one tight sentence, <b>the load-bearing phrase</b> in bold.</p>
+      </div>
+      <div class="row st-reveal" style="--st-i:1">
+        <span class="no">02</span><h3>SPEC_2_TITLE</h3>
+        <p>SPEC_2_BODY</p>
+      </div>
+      <div class="row st-reveal" style="--st-i:2">
+        <span class="no">03</span><h3>SPEC_3_TITLE</h3>
+        <p>SPEC_3_BODY</p>
+      </div>
+      <div class="row st-reveal" style="--st-i:3">
+        <span class="no">04</span><h3>SPEC_4_TITLE</h3>
+        <p>SPEC_4_BODY</p>
+      </div>
+    </div>
+  </div>
+</section>
