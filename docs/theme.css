@@ -1,42 +1,43 @@
-/* site-world demo theme — "Ink & Amber" (dark editorial style tile, frozen).
-   Token contract per references/theme-tokens.css. Sections reference ONLY these. */
+/* site-world demo theme — "AUDIT PAPER" (spec-sheet editorial, frozen).
+   Concept: the page is a living design-audit document — grid paper, crop
+   marks, mono annotations, stamps. Token contract per theme-tokens.css. */
 
 :root {
-  /* surfaces */
-  --st-bg:        #0F0D15;
-  --st-surface:   #1B1826;
-  --st-surface-2: #171420;
+  /* surfaces — warm paper, not white */
+  --st-bg:        #F1EDE3;
+  --st-surface:   #FAF7F0;
+  --st-surface-2: #E7E1D2;
 
-  /* text — ink-2 is a lavender HUE, not a grey (house rule) */
-  --st-ink:       #F2EDE2;
-  --st-ink-2:     #A79BD6;
-  --st-ink-inv:   #16131D;
+  /* text — ink-2 is umber, a hue, never grey (house rule) */
+  --st-ink:       #171310;
+  --st-ink-2:     #8A6F4D;
+  --st-ink-inv:   #F5F1E8;
 
-  /* brand */
-  --st-accent:    #8B7BD8;
-  --st-accent-2:  #E8A34F;
-  --st-ok:        #4CAF82;
-  --st-warn:      #E85C3A;
+  /* brand — flame orange + pressman blue */
+  --st-accent:    #E8420A;
+  --st-accent-2:  #2431C8;
+  --st-ok:        #1F9257;   /* readable on both paper and the ink terminal */
+  --st-warn:      #E8420A;
 
   /* type */
-  --st-font-display: ui-rounded, "SF Pro Rounded", "Segoe UI", system-ui, sans-serif;
+  --st-font-display: "Fraunces", "Songti SC", Georgia, serif;
   --st-font-body:    -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif;
-  --st-font-mono:    ui-monospace, "SF Mono", Menlo, monospace;
+  --st-font-mono:    "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
 
   /* scale */
-  --st-h1: clamp(2.6rem, 6.5vw, 5.2rem);
-  --st-h2: clamp(1.9rem, 3.8vw, 3rem);
-  --st-h3: clamp(1.25rem, 1.9vw, 1.6rem);
+  --st-h1: clamp(3.2rem, 9.5vw, 8.5rem);
+  --st-h2: clamp(2rem, 4.6vw, 3.8rem);
+  --st-h3: clamp(1.2rem, 1.9vw, 1.55rem);
   --st-body: clamp(1rem, 1.2vw, 1.125rem);
-  --st-fine: 0.85rem;
+  --st-fine: 0.8rem;
 
-  /* shape + rhythm */
-  --st-radius:    18px;
-  --st-radius-sm: 11px;
-  --st-shadow:    0 22px 60px -20px rgb(0 0 0 / 0.55);
-  --st-gap:       clamp(4.5rem, 9vw, 8.5rem);
+  /* shape + rhythm — sharp, printed */
+  --st-radius:    2px;
+  --st-radius-sm: 2px;
+  --st-shadow:    6px 6px 0 color-mix(in srgb, var(--st-ink) 14%, transparent);
+  --st-gap:       clamp(5rem, 10vw, 9.5rem);
   --st-pad:       clamp(1.25rem, 4vw, 3rem);
-  --st-maxw:      1200px;
+  --st-maxw:      1240px;
 
   /* motion */
   --st-ease:      cubic-bezier(0.22, 1, 0.36, 1);

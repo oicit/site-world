@@ -3,450 +3,512 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-  <title>site-world — websites built like a process, not a prompt</title>
-  <meta name="description" content="An agent skill that builds agency-grade websites: brief → style tiles → section library → screenshot QA loop. This page was assembled by the skill from its own section library." />
+  <title>site-world — the website is the audit</title>
+  <meta name="description" content="An agent skill that builds agency-grade websites as an enforced, auditable pipeline. This page is a live design-audit document — assembled by the skill from its own section library and gated by its own QA harness." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="theme.css" />
   <style>
     *,*::before,*::after{box-sizing:border-box}
     html{scroll-behavior:smooth}
     body{margin:0;background:var(--st-bg);color:var(--st-ink);
-      font-family:var(--st-font-body);font-size:var(--st-body);line-height:1.55;
-      overflow-x:clip}
+      font-family:var(--st-font-body);font-size:var(--st-body);line-height:1.5;
+      overflow-x:clip;
+      /* the audit-paper grid — the whole document sits on drafting paper */
+      background-image:
+        linear-gradient(color-mix(in srgb,var(--st-ink) 5%,transparent) 1px,transparent 1px),
+        linear-gradient(90deg,color-mix(in srgb,var(--st-ink) 5%,transparent) 1px,transparent 1px);
+      background-size:28px 28px;background-position:-1px -1px}
     img,video{max-width:100%;display:block}
     a{color:inherit}
     .st-wrap{max-width:var(--st-maxw);margin:0 auto;padding:0 var(--st-pad)}
-    section{padding-block:var(--st-gap)}
-    .st-reveal{opacity:0;transform:translateY(26px);
+    ::selection{background:var(--st-accent);color:var(--st-ink-inv)}
+
+    /* ---- document chrome ---- */
+    .doc-rail{position:fixed;top:0;left:0;right:0;z-index:60;display:flex;
+      justify-content:space-between;align-items:center;gap:1rem;
+      padding:.7rem clamp(1rem,4vw,2rem);font-family:var(--st-font-mono);
+      font-size:.72rem;letter-spacing:.06em;text-transform:uppercase;
+      color:var(--st-ink);background:color-mix(in srgb,var(--st-bg) 82%,transparent);
+      backdrop-filter:blur(6px);border-bottom:1.5px solid var(--st-ink)}
+    .doc-rail .r{display:flex;gap:1.2rem;align-items:center}
+    .doc-rail b{font-weight:600}
+    .doc-rail .dot{width:7px;height:7px;background:var(--st-ok);border-radius:50%;
+      box-shadow:0 0 0 0 color-mix(in srgb,var(--st-ok) 60%,transparent);
+      animation:pulse 2.4s var(--st-ease) infinite}
+    @keyframes pulse{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--st-ok) 55%,transparent)}
+      70%{box-shadow:0 0 0 7px transparent}100%{box-shadow:0 0 0 0 transparent}}
+    .doc-rail a.tk{color:var(--st-accent-2);text-decoration:none;cursor:pointer}
+    .doc-rail a.tk::before{content:"[ ]";margin-right:.3em}
+    body.tokens .doc-rail a.tk::before{content:"[x]"}
+
+    /* token annotation flags — rendered ONLY when the audit switch is on, so
+       the off-canvas flag can't inflate scrollWidth in the default state */
+    .tok{position:relative}
+    .tok::after{content:attr(data-tok);position:absolute;top:-.2rem;left:100%;
+      margin-left:.4rem;font-family:var(--st-font-mono);font-size:.6rem;
+      white-space:nowrap;color:var(--st-accent-2);
+      border:1px solid var(--st-accent-2);padding:1px 4px;border-radius:2px;
+      background:var(--st-bg);pointer-events:none;z-index:5;display:none;
+      opacity:0;transform:translateX(-4px);transition:opacity .3s,transform .3s}
+    body.tokens .tok::after{display:block;opacity:1;transform:none}
+    @media (max-width:720px){body.tokens .tok::after{display:none}}
+
+    /* crop marks on section blocks */
+    .plate{position:relative}
+    .plate::before,.plate::after{content:"";position:absolute;width:14px;height:14px;
+      border:1.5px solid var(--st-ink);pointer-events:none}
+    .plate::before{top:-1px;left:-1px;border-right:0;border-bottom:0}
+    .plate::after{bottom:-1px;right:-1px;border-left:0;border-top:0}
+
+    section{padding-block:var(--st-gap);position:relative}
+    .fig{font-family:var(--st-font-mono);font-size:var(--st-fine);
+      letter-spacing:.08em;text-transform:uppercase;color:var(--st-ink-2);
+      display:flex;align-items:center;gap:.6rem;margin:0 0 1.4rem}
+    .fig::before{content:"";width:2rem;height:1.5px;background:var(--st-accent)}
+
+    .st-reveal{opacity:0;transform:translateY(22px);
       transition:opacity var(--st-dur) var(--st-ease),transform var(--st-dur) var(--st-ease);
-      transition-delay:calc(var(--st-i,0)*90ms)}
+      transition-delay:calc(var(--st-i,0)*80ms)}
     .st-in{opacity:1;transform:none}
     @media (prefers-reduced-motion:reduce){
       html{scroll-behavior:auto}
       .st-reveal{opacity:1;transform:none;transition:none}
+      .doc-rail .dot{animation:none}
     }
   </style>
 </head>
 <body>
 
-<!-- hero-type -->
-<section class="st-hero-type">
+<!-- document rail -->
+<div class="doc-rail">
+  <div class="r"><b>SITE-WORLD</b><span>DOC&nbsp;001 · REV&nbsp;0.1.0</span></div>
+  <div class="r"><a class="tk" id="tkbtn" role="button" tabindex="0">annotate&nbsp;tokens</a>
+    <span><span class="dot"></span>&nbsp;QA&nbsp;PASS</span></div>
+</div>
+
+<!-- ============ HERO / cover sheet ============ -->
+<section class="cover">
   <style>
-    .st-hero-type{min-height:86svh;display:grid;align-items:center}
-    .st-hero-type .st-eyebrow{font-weight:700;font-size:var(--st-fine);
-      letter-spacing:.16em;text-transform:uppercase;color:var(--st-accent-2)}
-    .st-hero-type h1{font-family:var(--st-font-display);font-size:var(--st-h1);
-      line-height:1.02;letter-spacing:-.015em;margin:.6rem 0 1.4rem;max-width:15ch}
-    .st-hero-type h1 .line{display:block;overflow:clip}
-    .st-hero-type h1 .line>span{display:inline-block;transform:translateY(110%);
-      transition:transform .9s var(--st-ease);transition-delay:calc(var(--st-i,0)*120ms)}
-    .st-hero-type.st-in h1 .line>span{transform:none}
-    .st-hero-type h1 em{font-style:normal;color:var(--st-accent)}
-    .st-hero-type .lede{font-size:var(--st-h3);max-width:52ch;margin:0 0 2.2rem;color:var(--st-ink-2)}
-    .st-hero-type .lede code{font-family:var(--st-font-mono);font-size:.85em;color:var(--st-accent-2)}
-    .st-hero-type .actions{display:flex;gap:.8rem;flex-wrap:wrap}
-    .st-hero-type .btn{display:inline-block;text-decoration:none;font-weight:700;
-      padding:.95rem 1.9rem;border-radius:var(--st-radius-sm);
-      background:var(--st-accent);color:var(--st-ink-inv);
-      transition:transform .25s var(--st-ease)}
-    .st-hero-type .btn:hover{transform:translateY(-2px)}
-    .st-hero-type .btn--ghost{background:transparent;color:var(--st-ink);border:2px solid var(--st-ink)}
-    @media (prefers-reduced-motion:reduce){.st-hero-type h1 .line>span{transform:none;transition:none}}
+    .cover{min-height:100svh;display:flex;flex-direction:column;justify-content:center;
+      padding-top:4rem}
+    .cover .meta{display:grid;grid-template-columns:repeat(4,auto);gap:.4rem 2.4rem;
+      font-family:var(--st-font-mono);font-size:var(--st-fine);color:var(--st-ink-2);
+      letter-spacing:.04em;margin-bottom:2.2rem;justify-content:start}
+    .cover .meta b{color:var(--st-ink);font-weight:600}
+    .cover h1{font-family:var(--st-font-display);font-weight:900;font-size:var(--st-h1);
+      line-height:.9;letter-spacing:-.02em;margin:0;
+      font-variation-settings:"opsz" 144}
+    .cover h1 .a{display:block}
+    .cover h1 .b{display:block;font-weight:300;font-style:italic}
+    .cover h1 em{font-style:normal;color:var(--st-accent);
+      -webkit-text-stroke:0;position:relative}
+    .cover .strap{display:flex;flex-wrap:wrap;gap:1.4rem 2.4rem;align-items:flex-end;
+      justify-content:space-between;margin-top:2.6rem;border-top:1.5px solid var(--st-ink);
+      padding-top:1.4rem}
+    .cover .strap p{max-width:44ch;margin:0;font-size:var(--st-h3);line-height:1.4}
+    .cover .strap p b{font-weight:600}
+    .cover .actions{display:flex;gap:.7rem;flex-wrap:wrap;flex-shrink:0}
+    .cover .btn{font-family:var(--st-font-mono);font-size:.82rem;font-weight:600;
+      letter-spacing:.03em;text-decoration:none;padding:.85rem 1.5rem;
+      border:1.5px solid var(--st-ink);background:var(--st-ink);color:var(--st-ink-inv);
+      box-shadow:var(--st-shadow);transition:transform .18s var(--st-ease),box-shadow .18s var(--st-ease)}
+    .cover .btn:hover{transform:translate(-2px,-2px);
+      box-shadow:9px 9px 0 color-mix(in srgb,var(--st-ink) 16%,transparent)}
+    .cover .btn--o{background:transparent;color:var(--st-ink)}
+    /* the reveal: each headline word clips up */
+    .cover h1 .w{display:inline-block;overflow:clip;vertical-align:top}
+    .cover h1 .w>span{display:inline-block;transform:translateY(105%);
+      transition:transform 1s var(--st-ease);transition-delay:calc(var(--st-i,0)*90ms + .1s)}
+    .cover.st-in h1 .w>span{transform:none}
+    @media (prefers-reduced-motion:reduce){.cover h1 .w>span{transform:none;transition:none}}
+    @media (max-width:720px){.cover .meta{grid-template-columns:repeat(2,auto)}}
   </style>
   <div class="st-wrap">
-    <span class="st-eyebrow">site-world — an agent skill</span>
-    <h1>
-      <span class="line"><span style="--st-i:0">Websites built like</span></span>
-      <span class="line"><span style="--st-i:1">a <em>process</em>, not a prompt.</span></span>
+    <div class="meta">
+      <span>CLIENT&nbsp;/&nbsp;<b>site-world</b></span>
+      <span>TYPE&nbsp;/&nbsp;<b>agent skill</b></span>
+      <span>OUTPUT&nbsp;/&nbsp;<b>static HTML</b></span>
+      <span>STATUS&nbsp;/&nbsp;<b>shipping</b></span>
+    </div>
+    <h1 class="tok" data-tok="--st-font-display · 900 · opsz 144">
+      <span class="a"><span class="w"><span style="--st-i:0">The&nbsp;website</span></span></span>
+      <span class="b"><span class="w"><span style="--st-i:1"><em>is</em>&nbsp;the&nbsp;audit.</span></span></span>
     </h1>
-    <p class="lede">Brief → style tiles → section library → screenshot QA.
-      Agency-grade output every run — and this page was assembled by the skill
-      from its own library.</p>
-    <div class="actions">
-      <a class="btn" href="https://github.com/oicit/site-world">Install the skill</a>
-      <a class="btn btn--ghost" href="#pipeline">See the pipeline</a>
+    <div class="strap">
+      <p>An agent skill that builds sites through an <b>enforced pipeline</b> — and
+      refuses to ship one until it passes a screenshot QA loop. This page is that
+      document. Flip <b>annotate&nbsp;tokens</b>, up top.</p>
+      <div class="actions">
+        <a class="btn" href="https://github.com/oicit/site-world">$ install</a>
+        <a class="btn btn--o" href="#pipeline">read the spec ↓</a>
+      </div>
     </div>
   </div>
   <script>
-    (function () {
-      const s = document.currentScript.closest('section');
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { s.classList.add('st-in'); return; }
-      requestAnimationFrame(() => requestAnimationFrame(() => s.classList.add('st-in')));
-    })();
+    (function(){var s=document.currentScript.closest('section');
+      if(matchMedia('(prefers-reduced-motion: reduce)').matches){s.classList.add('st-in');return;}
+      requestAnimationFrame(function(){requestAnimationFrame(function(){s.classList.add('st-in');});});})();
   </script>
 </section>
 
-<!-- logo-marquee: what it composes with -->
-<section class="st-marquee" aria-label="Composes with">
+<!-- ============ marquee: the standing orders ============ -->
+<section class="orders" aria-label="Non-negotiable design rules">
   <style>
-    .st-marquee{padding-block:calc(var(--st-gap)*.5);overflow:clip}
-    .st-marquee .title{text-align:center;font-weight:700;font-size:var(--st-fine);
-      letter-spacing:.14em;text-transform:uppercase;color:var(--st-accent-2);margin:0 0 1.6rem}
-    .st-marquee .track{display:flex;gap:4rem;width:max-content;
-      animation:st-marquee-roll 28s linear infinite}
-    .st-marquee:hover .track{animation-play-state:paused}
-    .st-marquee .logo{height:34px;display:flex;align-items:center;
-      font-family:var(--st-font-display);font-weight:700;font-size:1.15rem;white-space:nowrap}
-    @keyframes st-marquee-roll{to{transform:translateX(-50%)}}
-    @media (max-width:680px){.st-marquee .track{animation-duration:40s}}
-    @media (prefers-reduced-motion:reduce){
-      .st-marquee .track{animation:none;width:auto;flex-wrap:wrap;justify-content:center}
-      .st-marquee .track > *:nth-child(n+7){display:none}
-    }
+    .orders{padding-block:calc(var(--st-gap)*.55);border-block:1.5px solid var(--st-ink);
+      overflow:clip;background:var(--st-ink);color:var(--st-bg)}
+    .orders .lane{display:flex;gap:0;width:max-content;
+      animation:orders-roll 34s linear infinite}
+    .orders:hover .lane{animation-play-state:paused}
+    .orders .item{font-family:var(--st-font-display);font-weight:900;
+      font-size:clamp(2.2rem,6vw,5rem);line-height:1;white-space:nowrap;
+      padding:0 2.5rem;-webkit-text-stroke:1.4px var(--st-bg);color:transparent;
+      font-variation-settings:"opsz" 144}
+    .orders .item.solid{color:var(--st-accent);-webkit-text-stroke:0}
+    .orders .item .x{color:var(--st-bg);-webkit-text-stroke:0;font-style:italic;font-weight:300}
+    @keyframes orders-roll{to{transform:translateX(-50%)}}
+    @media (prefers-reduced-motion:reduce){.orders .lane{animation:none}}
   </style>
-  <p class="title">Runs in your agent · composes with what you have</p>
-  <div class="track">
-    <span class="logo">Claude Code</span><span class="logo">Codex</span><span class="logo">GSAP</span>
-    <span class="logo">Playwright</span><span class="logo">scroll-world</span><span class="logo">image-gen skills</span>
-    <span class="logo" aria-hidden="true">Claude Code</span><span class="logo" aria-hidden="true">Codex</span><span class="logo" aria-hidden="true">GSAP</span>
-    <span class="logo" aria-hidden="true">Playwright</span><span class="logo" aria-hidden="true">scroll-world</span><span class="logo" aria-hidden="true">image-gen skills</span>
+  <div class="lane" id="ordersLane">
+    <span class="item">NO GREY HIERARCHY</span><span class="item solid">TOKEN-ONLY</span>
+    <span class="item">MOTION MUST DEGRADE</span><span class="item"><span class="x">ZERO</span> OVERFLOW</span>
+    <span class="item solid">REAL COPY, NO LOREM</span>
   </div>
 </section>
 
-<!-- feature-bento -->
-<section class="st-bento">
+<!-- ============ the four disciplines — spec table ============ -->
+<section class="specs">
   <style>
-    .st-bento header{max-width:60ch;margin-bottom:3rem}
-    .st-bento header h2{font-family:var(--st-font-display);font-size:var(--st-h2);line-height:1.08;margin:0 0 .6rem}
-    .st-bento header p{color:var(--st-ink-2);margin:0}
-    .st-bento .grid{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(200px,auto);gap:1.1rem}
-    .st-bento .cell{background:var(--st-surface);border-radius:var(--st-radius);
-      padding:1.6rem;display:flex;flex-direction:column;justify-content:flex-end;gap:.4rem;
-      box-shadow:var(--st-shadow);transition:transform .3s var(--st-ease);overflow:clip;position:relative}
-    .st-bento .cell:hover{transform:translateY(-6px)}
-    .st-bento .cell h3{font-family:var(--st-font-display);font-size:var(--st-h3);margin:0}
-    .st-bento .cell p{margin:0;font-size:var(--st-fine);color:var(--st-ink-2)}
-    .st-bento .cell .tag{position:absolute;top:1.2rem;left:1.6rem;font-weight:700;
-      font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:var(--st-accent)}
-    .st-bento .cell--anchor{grid-column:span 2;grid-row:span 2;
-      background:linear-gradient(150deg,var(--st-accent),var(--st-accent-2));color:var(--st-ink-inv)}
-    .st-bento .cell--anchor p{color:var(--st-ink-inv)}
-    .st-bento .cell--anchor .tag{color:var(--st-ink-inv)}
-    .st-bento .cell--wide{grid-column:span 2}
-    @media (max-width:880px){
-      .st-bento .grid{grid-template-columns:1fr;grid-auto-rows:auto}
-      .st-bento .cell{min-height:150px}
-      .st-bento .cell--anchor,.st-bento .cell--wide{grid-column:auto;grid-row:auto}
-      .st-bento .cell .tag{position:static;margin-bottom:.4rem}
+    .specs .fig{margin-bottom:2rem}
+    .specs .lede{font-family:var(--st-font-display);font-weight:500;
+      font-size:var(--st-h2);line-height:1.05;max-width:16ch;margin:0 0 3rem;
+      font-variation-settings:"opsz" 60}
+    .specs .lede em{font-style:italic;color:var(--st-accent)}
+    .specs .rows{border-top:1.5px solid var(--st-ink)}
+    .specs .row{display:grid;grid-template-columns:5rem 1fr 1.4fr;gap:1.5rem;
+      align-items:baseline;padding:1.6rem 0;border-bottom:1.5px solid var(--st-ink);
+      transition:background .3s}
+    .specs .row:hover{background:var(--st-surface)}
+    .specs .row .no{font-family:var(--st-font-mono);font-size:var(--st-fine);
+      color:var(--st-accent);font-weight:600}
+    .specs .row h3{font-family:var(--st-font-display);font-weight:600;
+      font-size:clamp(1.4rem,2.6vw,2.1rem);line-height:1.02;margin:0;
+      font-variation-settings:"opsz" 40}
+    .specs .row p{margin:0;color:var(--st-ink-2);font-size:.98rem;line-height:1.5}
+    .specs .row p b{color:var(--st-ink);font-weight:600}
+    @media (max-width:760px){
+      .specs .row{grid-template-columns:2.5rem 1fr;gap:.4rem 1rem}
+      .specs .row p{grid-column:1/-1}
     }
   </style>
-  <div class="st-wrap">
-    <header class="st-reveal">
-      <h2>Generators roll dice. This ships gates.</h2>
-      <p>Four disciplines separate a process from a prompt.</p>
-    </header>
-    <div class="grid">
-      <div class="cell cell--anchor st-reveal" style="--st-i:0">
-        <span class="tag">The core idea</span>
-        <h3>Taste, frozen as tokens</h3>
-        <p>You pick one of three style tiles; the winner becomes theme.css design
-        tokens. From then on, sections may only reference tokens — the QA harness
-        greps for raw hex and fails the build. Style drift becomes a detectable
-        error, not a vibe.</p>
+  <div class="st-wrap plate">
+    <p class="fig">Fig. 01 — why a process beats a prompt</p>
+    <h2 class="lede st-reveal">Generators roll dice.<br/>This ships <em>gates.</em></h2>
+    <div class="rows">
+      <div class="row st-reveal">
+        <span class="no">01</span>
+        <h3 class="tok" data-tok="--st-font-display">Taste, frozen as tokens</h3>
+        <p>You pick one of three style tiles; the winner becomes <b>theme.css</b>.
+        After that sections may only reference tokens — the QA harness greps for
+        raw hex and <b>fails the build</b>. Drift is an error, not a vibe.</p>
       </div>
-      <div class="cell st-reveal" style="--st-i:1">
-        <h3>Verified sections</h3>
-        <p>Pages assemble from self-contained templates — mobile behavior,
-        reduced-motion, CJK text effects already debugged.</p>
+      <div class="row st-reveal" style="--st-i:1">
+        <span class="no">02</span>
+        <h3>Verified sections, not codegen</h3>
+        <p>Pages assemble from a library of self-contained templates — mobile
+        behavior, reduced-motion, CJK text effects <b>already debugged</b>.</p>
       </div>
-      <div class="cell st-reveal" style="--st-i:2">
-        <h3>Screenshot QA loop</h3>
-        <p>Playwright shoots desktop, phone, and reduced-motion; a 10-dimension
-        rubric scores the shots. Below 4/5 anywhere? It iterates.</p>
+      <div class="row st-reveal" style="--st-i:2">
+        <span class="no">03</span>
+        <h3>A screenshot QA loop</h3>
+        <p>Playwright shoots desktop, phone and reduced-motion; a <b>10-dimension
+        rubric</b> scores the shots. Below 4/5 anywhere and it iterates.</p>
       </div>
-      <div class="cell cell--wide st-reveal" style="--st-i:3">
+      <div class="row st-reveal" style="--st-i:3">
+        <span class="no">04</span>
         <h3>A library that compounds</h3>
-        <p>After every shipped project you harvest new sections back into the
-        library. Your tenth site is better than your first — one-shot generators
-        start from zero every time.</p>
+        <p>After each project you harvest sections back in. Your tenth site beats
+        your first — <b>one-shot generators start from zero</b> every time.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- narrative-pin-steps: the pipeline -->
-<section class="st-pin-steps" id="pipeline">
+<!-- ============ the pipeline — sticky ledger ============ -->
+<section class="pipe" id="pipeline">
   <style>
-    .st-pin-steps .grid{display:grid;grid-template-columns:1fr 1.1fr;gap:4rem}
-    .st-pin-steps .steps{display:grid;gap:38vh;padding-block:12vh}
-    .st-pin-steps .step h3{font-family:var(--st-font-display);font-size:var(--st-h2);
-      line-height:1.08;margin:0 0 .8rem}
-    .st-pin-steps .step .num{font-family:var(--st-font-mono);font-weight:700;
-      font-size:var(--st-fine);color:var(--st-accent)}
-    .st-pin-steps .step p{color:var(--st-ink-2);max-width:40ch;margin:0}
-    .st-pin-steps .stage{position:sticky;top:12vh;height:76vh;border-radius:var(--st-radius);
-      overflow:clip;box-shadow:var(--st-shadow)}
-    .st-pin-steps .stage-wrap{align-self:start;position:relative}
-    .st-pin-steps .visual{position:absolute;inset:0;opacity:0;transform:scale(1.04);
-      transition:opacity .6s var(--st-ease),transform .6s var(--st-ease)}
-    .st-pin-steps .visual.is-on{opacity:1;transform:none}
-    .st-pin-steps .visual .ph{width:100%;height:100%;display:grid;place-items:center;
-      font-family:var(--st-font-mono);font-weight:700;font-size:clamp(1rem,2vw,1.5rem);
-      color:var(--st-ink-inv);text-align:center;padding:2rem}
-    @media (max-width:880px){
-      .st-pin-steps .grid{grid-template-columns:1fr}
-      .st-pin-steps .stage-wrap{display:none}
-      .st-pin-steps .steps{gap:3.5rem;padding-block:0}
-      .st-pin-steps .step .m-visual{display:block;margin-top:1.2rem;border-radius:var(--st-radius);overflow:clip}
-      .st-pin-steps .step .m-visual .ph{aspect-ratio:4/3;display:grid;place-items:center;
-        font-family:var(--st-font-mono);font-weight:700;color:var(--st-ink-inv)}
+    .pipe .grid{display:grid;grid-template-columns:1fr 1.05fr;gap:4rem;align-items:start}
+    .pipe .steps{display:grid;gap:34vh;padding-block:8vh}
+    .pipe .step .no{font-family:var(--st-font-mono);font-weight:600;
+      font-size:var(--st-fine);color:var(--st-accent);letter-spacing:.06em}
+    .pipe .step h3{font-family:var(--st-font-display);font-weight:600;
+      font-size:var(--st-h2);line-height:1;margin:.4rem 0 .9rem;
+      font-variation-settings:"opsz" 72}
+    .pipe .step p{color:var(--st-ink-2);max-width:38ch;margin:0;line-height:1.55}
+    .pipe .step p b{color:var(--st-ink);font-weight:600}
+    .pipe .stage-wrap{position:sticky;top:18vh;align-self:start}
+    .pipe .term{background:var(--st-ink);border:1.5px solid var(--st-ink);
+      box-shadow:var(--st-shadow);font-family:var(--st-font-mono);font-size:.82rem;
+      color:var(--st-ink-inv);min-height:22rem}
+    .pipe .term .bar{display:flex;align-items:center;gap:.5rem;
+      padding:.6rem .9rem;border-bottom:1px solid color-mix(in srgb,var(--st-ink-inv) 22%,transparent)}
+    .pipe .term .bar i{width:9px;height:9px;border-radius:50%;background:color-mix(in srgb,var(--st-ink-inv) 40%,transparent)}
+    .pipe .term .bar i:first-child{background:var(--st-accent)}
+    .pipe .term .bar span{margin-left:auto;color:color-mix(in srgb,var(--st-ink-inv) 55%,transparent);font-size:.72rem}
+    .pipe .term .body{padding:1.1rem 1.1rem 1.4rem;white-space:pre-wrap;line-height:1.65;min-height:16rem}
+    .pipe .term .k{color:var(--st-accent)}
+    .pipe .term .d{color:color-mix(in srgb,var(--st-ink-inv) 55%,transparent)}
+    .pipe .term .g{color:var(--st-ok)}
+    .pipe .term .cur{display:inline-block;width:.6em;height:1.05em;
+      background:var(--st-ink-inv);vertical-align:-.15em;animation:blink 1s steps(2) infinite}
+    @keyframes blink{50%{opacity:0}}
+    @media (max-width:820px){
+      .pipe .grid{grid-template-columns:1fr;gap:1.5rem}
+      .pipe .stage-wrap{position:static;order:-1;margin-bottom:1rem}
+      .pipe .steps{gap:3rem;padding-block:0}
+      .pipe .step p{max-width:none}
     }
-    @media (min-width:881px){.st-pin-steps .step .m-visual{display:none}}
-    @media (prefers-reduced-motion:reduce){.st-pin-steps .visual{transition:none}}
+    @media (prefers-reduced-motion:reduce){.pipe .term .cur{animation:none}}
   </style>
-  <div class="st-wrap grid">
-    <div class="steps">
-      <div class="step" data-visual="v1">
-        <span class="num">01</span><h3>Brief, then three tiles.</h3>
-        <p>The skill interviews you for the page's one job, writes a creative
-        brief to a file, and renders three contrasting style tiles as real pages.
-        You pick. The winner freezes into theme.css.</p>
-        <div class="m-visual"><div class="ph" style="background:var(--st-accent)">brief.md → theme.css</div></div>
+  <div class="st-wrap plate">
+    <p class="fig">Fig. 02 — the pipeline, three moves</p>
+    <div class="grid">
+      <div class="steps">
+        <div class="step" data-term="t1">
+          <span class="no">STEP 01 / BRIEF → TILES</span>
+          <h3>Decide taste once.</h3>
+          <p>The skill interviews you, writes a brief to a file, renders three
+          style tiles as real pages. You pick. The winner <b>freezes into
+          theme.css</b> — every later step is bound to it.</p>
+        </div>
+        <div class="step" data-term="t2">
+          <span class="no">STEP 02 / BLUEPRINT → BUILD</span>
+          <h3>Assemble, don't improvise.</h3>
+          <p>Sections come from a catalog — heroes, scrollytelling, proof bands —
+          each token-only. You <b>cut and reorder</b> the blueprint before a
+          single line is written.</p>
+        </div>
+        <div class="step" data-term="t3">
+          <span class="no">STEP 03 / QA → SHIP</span>
+          <h3>Pass, or iterate.</h3>
+          <p>Screenshots at two widths plus reduced-motion; overflow, console,
+          token and weight checks; a scored rubric. It loops until <b>every
+          dimension clears</b> — then hands you the site and the scorecard.</p>
+        </div>
       </div>
-      <div class="step" data-visual="v2">
-        <span class="num">02</span><h3>Blueprint, then assembly.</h3>
-        <p>Sections come from a catalog — heroes, scrollytelling, bento grids,
-        proof bands — each self-contained and token-only. You cut and reorder the
-        blueprint before a line is written.</p>
-        <div class="m-visual"><div class="ph" style="background:var(--st-accent-2)">INDEX.md → index.html</div></div>
+      <div class="stage-wrap">
+        <div class="term">
+          <div class="bar"><i></i><i></i><i></i><span>site-world · run.log</span></div>
+          <div class="body" id="termBody"></div>
+        </div>
       </div>
-      <div class="step" data-visual="v3">
-        <span class="num">03</span><h3>QA until it passes.</h3>
-        <p>Full-page screenshots at two widths plus reduced-motion; overflow,
-        console, token, and weight checks; a scored rubric. The loop repeats
-        until every dimension clears — then you get the site and the scorecard.</p>
-        <div class="m-visual"><div class="ph" style="background:var(--st-surface)">qa-out/report.json ✓</div></div>
-      </div>
-    </div>
-    <div class="stage-wrap">
-      <div class="stage">
-        <div class="visual is-on" id="v1"><div class="ph" style="background:var(--st-accent)">brief.md<br/>↓<br/>tile-1 · tile-2 · tile-3<br/>↓<br/>theme.css (frozen)</div></div>
-        <div class="visual" id="v2"><div class="ph" style="background:var(--st-accent-2)">INDEX.md<br/>↓<br/>hero + bento + stats + cta<br/>↓<br/>index.html</div></div>
-        <div class="visual" id="v3"><div class="ph" style="background:var(--st-surface);color:var(--st-ink)">desktop.png · phone.png<br/>reduced-motion.png<br/>↓<br/>rubric ≥ 4/5 × 10 → ship</div></div>
-      </div>
-    </div>
-  </div>
-  <script>
-    (function () {
-      const s = document.currentScript.closest('section');
-      const io = new IntersectionObserver(es => es.forEach(e => {
-        if (!e.isIntersecting) return;
-        const id = e.target.dataset.visual;
-        s.querySelectorAll('.visual').forEach(v => v.classList.toggle('is-on', v.id === id));
-      }), { rootMargin: '-45% 0px -45% 0px' });
-      s.querySelectorAll('.step').forEach(n => io.observe(n));
-    })();
-  </script>
-</section>
-
-<!-- stats-counter -->
-<section class="st-stats">
-  <style>
-    .st-stats{background:var(--st-ink);color:var(--st-ink-inv)}
-    .st-stats .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:2.5rem}
-    .st-stats .stat{min-width:0}
-    .st-stats .stat .n{font-family:var(--st-font-display);font-size:clamp(2.6rem,5.5vw,4.4rem);
-      line-height:1;font-variant-numeric:tabular-nums;letter-spacing:-.02em;overflow-wrap:anywhere}
-    .st-stats .stat .n em{font-style:normal;color:var(--st-warn)}
-    .st-stats .stat .label{margin-top:.5rem;font-weight:600;font-size:var(--st-fine);
-      letter-spacing:.08em;text-transform:uppercase;color:var(--st-accent)}
-    @media (max-width:680px){.st-stats .grid{grid-template-columns:1fr 1fr;gap:2rem}}
-  </style>
-  <div class="st-wrap grid">
-    <div class="stat st-reveal"><div class="n"><span data-to="14">0</span></div><div class="label">section templates</div></div>
-    <div class="stat st-reveal" style="--st-i:1"><div class="n"><span data-to="10">0</span></div><div class="label">rubric dimensions</div></div>
-    <div class="stat st-reveal" style="--st-i:2"><div class="n"><span data-to="3">0</span></div><div class="label">QA passes per build</div></div>
-    <div class="stat st-reveal" style="--st-i:3"><div class="n"><span data-to="0">0</span></div><div class="label">runtime dependencies</div></div>
-  </div>
-  <script>
-    (function () {
-      const s = document.currentScript.closest('section');
-      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
-      const fmt = (v, dp) => Number(v).toLocaleString(undefined,
-        { minimumFractionDigits: dp, maximumFractionDigits: dp });
-      function run(el) {
-        const to = parseFloat(el.dataset.to), dp = +(el.dataset.dp || 0), t0 = performance.now();
-        if (!isFinite(to)) return;
-        if (reduce) { el.textContent = fmt(to, dp); return; }
-        (function tick(t) {
-          const p = Math.min((t - t0) / 1200, 1), e = 1 - Math.pow(1 - p, 3);
-          el.textContent = fmt(to * e, dp);
-          if (p < 1) requestAnimationFrame(tick);
-        })(t0);
-      }
-      const io = new IntersectionObserver(es => es.forEach(e => {
-        if (e.isIntersecting) { run(e.target); io.unobserve(e.target); }
-      }), { threshold: 0.6 });
-      s.querySelectorAll('[data-to]').forEach(n => io.observe(n));
-    })();
-  </script>
-</section>
-
-<!-- horizontal-scroll: the section catalog -->
-<section class="st-hrail">
-  <style>
-    .st-hrail header{max-width:60ch;margin-bottom:2.4rem}
-    .st-hrail header h2{font-family:var(--st-font-display);font-size:var(--st-h2);line-height:1.08;margin:0 0 .6rem}
-    .st-hrail header p{color:var(--st-ink-2);margin:0}
-    .st-hrail .rail{display:flex;gap:1.2rem;overflow-x:auto;scroll-snap-type:x mandatory;
-      padding:0 var(--st-pad) 1.2rem;scrollbar-width:none;cursor:grab}
-    .st-hrail .rail::-webkit-scrollbar{display:none}
-    .st-hrail .rail.dragging{cursor:grabbing;scroll-snap-type:none}
-    .st-hrail .panel{flex:0 0 min(420px,82vw);scroll-snap-align:start;
-      background:var(--st-surface);border-radius:var(--st-radius);box-shadow:var(--st-shadow);
-      overflow:clip;display:flex;flex-direction:column}
-    .st-hrail .panel .media{aspect-ratio:16/10;display:grid;place-items:center;
-      font-family:var(--st-font-mono);font-weight:700;color:var(--st-ink-inv)}
-    .st-hrail .panel .body{padding:1.4rem}
-    .st-hrail .panel h3{font-family:var(--st-font-display);font-size:var(--st-h3);margin:0 0 .4rem}
-    .st-hrail .panel p{margin:0;font-size:var(--st-fine);color:var(--st-ink-2)}
-  </style>
-  <div class="st-wrap">
-    <header class="st-reveal"><h2>The library, at a glance.</h2>
-      <p>Every panel is a template in <span style="font-family:var(--st-font-mono)">references/sections/</span> —
-      this page is built from them.</p></header>
-  </div>
-  <div class="rail">
-    <article class="panel"><div class="media" style="background:linear-gradient(140deg,var(--st-accent),var(--st-accent-2))">hero-type</div>
-      <div class="body"><h3>Heroes ×3</h3><p>Typography-led, split, or a scroll-scrubbed video fly-through via scroll-world.</p></div></article>
-    <article class="panel"><div class="media" style="background:var(--st-accent)">narrative-pin-steps</div>
-      <div class="body"><h3>Scrollytelling</h3><p>Sticky stage, copy scrolls past, visuals swap per beat — the section above you.</p></div></article>
-    <article class="panel"><div class="media" style="background:var(--st-accent-2)">feature-bento</div>
-      <div class="body"><h3>Bento grid</h3><p>One flagship cell plus supporting features; staggered reveal, hover lift.</p></div></article>
-    <article class="panel"><div class="media" style="background:var(--st-ink);color:var(--st-ink-inv)">stats-counter</div>
-      <div class="body"><h3>Proof bands</h3><p>Count-up numbers, logo marquee, testimonial cards — evidence, three ways.</p></div></article>
-    <article class="panel"><div class="media" style="background:var(--st-surface-2);color:var(--st-ink)">quote-card</div>
-      <div class="body"><h3>The peak line</h3><p>One full-bleed statement, word-by-word rise, CJK-aware splitting.</p></div></article>
-    <article class="panel"><div class="media" style="background:linear-gradient(140deg,var(--st-accent-2),var(--st-warn))">cta-final</div>
-      <div class="body"><h3>The close</h3><p>One ask, restated promise, then a deliberately quiet footer.</p></div></article>
-  </div>
-  <script>
-    (function () {
-      const rail = document.currentScript.closest('section').querySelector('.rail');
-      let down = false, sx = 0, sl = 0;
-      rail.addEventListener('pointerdown', e => {
-        if (e.pointerType !== 'mouse') return;
-        down = true; sx = e.clientX; sl = rail.scrollLeft; rail.classList.add('dragging');
-      });
-      addEventListener('pointermove', e => { if (down) rail.scrollLeft = sl - (e.clientX - sx); });
-      addEventListener('pointerup', () => { down = false; rail.classList.remove('dragging'); });
-    })();
-  </script>
-</section>
-
-<!-- quote-card -->
-<section class="st-quote">
-  <style>
-    .st-quote{background:var(--st-surface-2);text-align:center;
-      padding-block:calc(var(--st-gap)*1.25)}
-    .st-quote blockquote{margin:0 auto;max-width:24ch;overflow-wrap:anywhere;
-      font-family:var(--st-font-display);font-size:clamp(1.9rem,4.6vw,3.6rem);
-      line-height:1.18;letter-spacing:-.01em}
-    .st-quote blockquote .w{display:inline-block;opacity:0;transform:translateY(.5em);
-      transition:opacity .55s var(--st-ease),transform .55s var(--st-ease);
-      transition-delay:calc(var(--st-i,0)*70ms)}
-    .st-quote.st-in blockquote .w{opacity:1;transform:none}
-    .st-quote cite{display:block;margin-top:1.6rem;font-style:normal;font-weight:700;
-      font-size:var(--st-fine);letter-spacing:.12em;text-transform:uppercase;color:var(--st-accent)}
-    @media (prefers-reduced-motion:reduce){.st-quote blockquote .w{opacity:1;transform:none;transition:none}}
-  </style>
-  <div class="st-wrap">
-    <blockquote data-split>Style drift is a detectable error, not a vibe.</blockquote>
-    <cite>site-world design rules</cite>
-  </div>
-  <script>
-    (function () {
-      const s = document.currentScript.closest('section');
-      const q = s.querySelector('[data-split]');
-      const text = q.textContent.trim();
-      const parts = /[一-鿿]/.test(text) ? [...text] : text.split(/\s+/);
-      q.innerHTML = parts.map((w, i) =>
-        `<span class="w" style="--st-i:${i}">${w}</span>`).join(/[一-鿿]/.test(text) ? '' : ' ');
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) { s.classList.add('st-in'); return; }
-      const io = new IntersectionObserver(es => es.forEach(e => {
-        if (e.isIntersecting) { s.classList.add('st-in'); io.disconnect(); }
-      }), { threshold: 0.6 });
-      io.observe(q);
-    })();
-  </script>
-</section>
-
-<!-- cta-final -->
-<section class="st-cta">
-  <style>
-    .st-cta .panel{background:linear-gradient(150deg,var(--st-accent),var(--st-accent-2));
-      color:var(--st-ink-inv);border-radius:calc(var(--st-radius)*1.5);
-      padding:clamp(2.5rem,7vw,5rem);text-align:center;box-shadow:var(--st-shadow)}
-    .st-cta h2{font-family:var(--st-font-display);font-size:var(--st-h2);
-      line-height:1.06;margin:0 auto 1rem;max-width:22ch}
-    .st-cta p{margin:0 auto 2.2rem;max-width:48ch}
-    .st-cta .btn{display:inline-block;text-decoration:none;font-weight:800;
-      font-size:1.05rem;padding:1.05rem 2.6rem;border-radius:var(--st-radius-sm);
-      background:var(--st-ink-inv);color:var(--st-ink);
-      animation:st-cta-pulse 2.2s var(--st-ease) 3;transition:transform .25s var(--st-ease)}
-    .st-cta .btn:hover{transform:translateY(-3px)}
-    .st-cta .fine{margin-top:1.2rem;font-size:var(--st-fine);font-weight:600;
-      font-family:var(--st-font-mono)}
-    @keyframes st-cta-pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.035)}}
-    @media (max-width:640px){.st-cta .btn{display:block}}
-    @media (prefers-reduced-motion:reduce){.st-cta .btn{animation:none}}
-  </style>
-  <div class="st-wrap">
-    <div class="panel st-reveal">
-      <h2>Your next site, built with gates.</h2>
-      <p>Install the skill, describe the page, pick a tile — and nothing ships
-      until the rubric says so.</p>
-      <a class="btn" href="https://github.com/oicit/site-world">Get site-world on GitHub</a>
-      <p class="fine">/plugin marketplace add oicit/site-world</p>
     </div>
   </div>
 </section>
 
-<!-- footer -->
-<footer class="st-footer">
+<!-- ============ the ledger numbers ============ -->
+<section class="tally">
   <style>
-    .st-footer{background:var(--st-ink);color:var(--st-ink-inv);
-      padding:calc(var(--st-gap)*.7) 0 2.5rem;margin-top:var(--st-gap)}
-    .st-footer .grid{display:grid;grid-template-columns:2fr repeat(3,1fr);gap:2.5rem}
-    .st-footer .brand{font-family:var(--st-font-display);font-weight:800;font-size:1.4rem}
-    .st-footer .tagline{margin:.7rem 0 0;max-width:30ch;font-size:var(--st-fine)}
-    .st-footer h3{font-size:var(--st-fine);font-weight:700;letter-spacing:.1em;
-      text-transform:uppercase;color:var(--st-accent);margin:0 0 1rem}
-    .st-footer ul{list-style:none;margin:0;padding:0;display:grid;gap:.55rem}
-    .st-footer a{text-decoration:none;font-size:.95rem;font-weight:500}
-    .st-footer a:hover{color:var(--st-accent)}
-    .st-footer .fine{margin-top:3rem;padding-top:1.5rem;
-      border-top:1px solid var(--st-accent);display:flex;justify-content:space-between;
-      gap:1rem;flex-wrap:wrap;font-size:var(--st-fine)}
-    @media (max-width:880px){.st-footer .grid{grid-template-columns:1fr 1fr}}
-    @media (max-width:560px){.st-footer .grid{grid-template-columns:1fr}}
+    .tally .grid{display:grid;grid-template-columns:repeat(4,1fr)}
+    .tally .cell{padding:2.2rem 1.4rem;border-left:1.5px solid var(--st-ink)}
+    .tally .cell:first-child{border-left:0;padding-left:0}
+    .tally .n{font-family:var(--st-font-display);font-weight:900;
+      font-size:clamp(3rem,7vw,6rem);line-height:.85;letter-spacing:-.03em;
+      font-variant-numeric:tabular-nums;font-variation-settings:"opsz" 144}
+    .tally .cell:nth-child(4) .n{color:var(--st-accent)}
+    .tally .label{margin-top:.7rem;font-family:var(--st-font-mono);font-size:var(--st-fine);
+      letter-spacing:.04em;text-transform:uppercase;color:var(--st-ink-2);line-height:1.3}
+    @media (max-width:720px){
+      .tally .grid{grid-template-columns:1fr 1fr;gap:0}
+      .tally .cell{border-top:1.5px solid var(--st-ink)}
+      .tally .cell:nth-child(-n+2){border-top:0}
+      .tally .cell:nth-child(odd){border-left:0;padding-left:0}
+    }
   </style>
   <div class="st-wrap">
     <div class="grid">
-      <div><span class="brand">site-world</span>
-        <p class="tagline">Agency-grade websites as an enforced pipeline, for any
-        SKILL.md-compatible agent.</p></div>
-      <nav><h3>Repo</h3><ul>
-        <li><a href="https://github.com/oicit/site-world">GitHub</a></li>
-        <li><a href="https://github.com/oicit/site-world/issues">Issues</a></li></ul></nav>
-      <nav><h3>Skill</h3><ul>
-        <li><a href="https://github.com/oicit/site-world/blob/main/skills/site-world/SKILL.md">SKILL.md</a></li>
-        <li><a href="https://github.com/oicit/site-world/blob/main/skills/site-world/references/sections/INDEX.md">Section catalog</a></li>
-        <li><a href="https://github.com/oicit/site-world/blob/main/skills/site-world/references/qa-rubric.md">QA rubric</a></li></ul></nav>
-      <nav><h3>Related</h3><ul>
-        <li><a href="https://github.com/oso95/scroll-world">scroll-world</a></li></ul></nav>
+      <div class="cell st-reveal"><div class="n"><span data-to="14">0</span></div><div class="label">section<br/>templates</div></div>
+      <div class="cell st-reveal" style="--st-i:1"><div class="n"><span data-to="10">0</span></div><div class="label">rubric<br/>dimensions</div></div>
+      <div class="cell st-reveal" style="--st-i:2"><div class="n"><span data-to="3">0</span></div><div class="label">QA passes<br/>per build</div></div>
+      <div class="cell st-reveal" style="--st-i:3"><div class="n"><span data-to="0">0</span></div><div class="label">runtime<br/>dependencies</div></div>
     </div>
-    <div class="fine"><span>© 2026 oicit. MIT licensed.</span>
-      <span>Built by site-world, from its own sections.</span></div>
+  </div>
+  <script>
+    (function(){var s=document.currentScript.closest('section');
+      var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+      function run(el){var to=parseFloat(el.dataset.to),t0=performance.now();
+        if(!isFinite(to))return; if(reduce){el.textContent=to;return;}
+        (function tick(t){var p=Math.min((t-t0)/1100,1),e=1-Math.pow(1-p,3);
+          el.textContent=Math.round(to*e); if(p<1)requestAnimationFrame(tick);})(t0);}
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){
+        if(e.isIntersecting){run(e.target);io.unobserve(e.target);}});},{threshold:.6});
+      s.querySelectorAll('[data-to]').forEach(function(n){io.observe(n);});})();
+  </script>
+</section>
+
+<!-- ============ verdict / stamp ============ -->
+<section class="verdict">
+  <style>
+    .verdict{text-align:center}
+    .verdict .quote{font-family:var(--st-font-display);font-weight:500;
+      font-size:clamp(2rem,5.2vw,4.4rem);line-height:1.08;letter-spacing:-.01em;
+      max-width:20ch;margin:0 auto;font-variation-settings:"opsz" 90}
+    .verdict .quote em{font-style:italic;color:var(--st-accent)}
+    .verdict .quote .w{display:inline-block;opacity:0;transform:translateY(.4em) rotate(1deg);
+      transition:opacity .5s var(--st-ease),transform .5s var(--st-ease);
+      transition-delay:calc(var(--st-i,0)*55ms)}
+    .verdict.st-in .quote .w{opacity:1;transform:none}
+    .verdict .stamp{display:inline-grid;place-items:center;margin-top:3rem;
+      width:150px;height:150px;border:3px solid var(--st-ok);border-radius:50%;
+      color:var(--st-ok);font-family:var(--st-font-mono);font-weight:600;
+      transform:rotate(-11deg) scale(.7);opacity:0;
+      transition:transform .5s var(--st-ease) .5s,opacity .4s .5s}
+    .verdict.st-in .stamp{transform:rotate(-11deg) scale(1);opacity:.92}
+    .verdict .stamp b{font-family:var(--st-font-display);font-weight:900;font-size:2rem;
+      letter-spacing:.05em;line-height:1}
+    .verdict .stamp small{font-size:.58rem;letter-spacing:.14em;margin-top:.35rem}
+    .verdict .stamp .ring{font-size:.5rem;letter-spacing:.24em;margin-bottom:.3rem}
+    @media (prefers-reduced-motion:reduce){
+      .verdict .quote .w{opacity:1;transform:none;transition:none}
+      .verdict .stamp{opacity:.92;transition:none}}
+  </style>
+  <div class="st-wrap">
+    <p class="quote" data-split>Style drift is a <em>detectable error,</em> not a vibe.</p>
+    <div class="stamp"><span class="ring">◦ AUDIT ◦</span><b>PASS</b><small>10 / 10 DIMS</small></div>
+  </div>
+  <script>
+    (function(){var s=document.currentScript.closest('section');
+      var q=s.querySelector('[data-split]');
+      var nodes=[].slice.call(q.childNodes),html='',i=0;
+      nodes.forEach(function(n){
+        if(n.nodeType===3){n.textContent.split(/(\s+)/).forEach(function(t){
+          if(/^\s+$/.test(t)){html+=t;}else if(t){html+='<span class="w" style="--st-i:'+(i++)+'">'+t+'</span>';}});}
+        else{html+='<em class="w" style="--st-i:'+(i++)+'">'+n.textContent+'</em>';}});
+      q.innerHTML=html;
+      if(matchMedia('(prefers-reduced-motion: reduce)').matches){s.classList.add('st-in');return;}
+      var io=new IntersectionObserver(function(es){es.forEach(function(e){
+        if(e.isIntersecting){s.classList.add('st-in');io.disconnect();}});},{threshold:.5});
+      io.observe(s);})();
+  </script>
+</section>
+
+<!-- ============ CTA / sign-off ============ -->
+<section class="signoff">
+  <style>
+    .signoff .plate{background:var(--st-ink);color:var(--st-bg);
+      padding:clamp(2.5rem,7vw,5.5rem);box-shadow:var(--st-shadow)}
+    .signoff h2{font-family:var(--st-font-display);font-weight:900;
+      font-size:clamp(2.2rem,5.5vw,4.6rem);line-height:.95;margin:0 0 1rem;
+      letter-spacing:-.02em;font-variation-settings:"opsz" 144;max-width:16ch}
+    .signoff h2 em{font-style:italic;font-weight:300;color:var(--st-accent)}
+    .signoff p{max-width:46ch;margin:0 0 2.2rem;color:color-mix(in srgb,var(--st-bg) 80%,transparent);
+      font-size:var(--st-h3);line-height:1.4}
+    .signoff .cmd{display:flex;flex-wrap:wrap;gap:.8rem;align-items:center}
+    .signoff .btn{font-family:var(--st-font-mono);font-size:.85rem;font-weight:600;
+      text-decoration:none;padding:.9rem 1.7rem;border:1.5px solid var(--st-bg);
+      background:var(--st-accent);color:var(--st-ink-inv);
+      transition:transform .18s var(--st-ease)}
+    .signoff .btn:hover{transform:translate(-2px,-2px)}
+    .signoff code{font-family:var(--st-font-mono);font-size:.82rem;
+      color:color-mix(in srgb,var(--st-bg) 70%,transparent)}
+  </style>
+  <div class="st-wrap plate">
+    <h2>Your next site,<br/>built <em>with gates.</em></h2>
+    <p>Install the skill, describe the page, pick a tile. Nothing ships until the
+    rubric signs off.</p>
+    <div class="cmd">
+      <a class="btn" href="https://github.com/oicit/site-world">Get site-world →</a>
+      <code>/plugin marketplace add oicit/site-world</code>
+    </div>
+  </div>
+</section>
+
+<!-- ============ footer ============ -->
+<footer class="foot">
+  <style>
+    .foot{border-top:1.5px solid var(--st-ink);padding:2.5rem 0 3rem;
+      font-family:var(--st-font-mono);font-size:var(--st-fine)}
+    .foot .grid{display:flex;justify-content:space-between;gap:1.5rem;flex-wrap:wrap}
+    .foot a{color:var(--st-accent-2);text-decoration:none}
+    .foot a:hover{text-decoration:underline}
+    .foot .links{display:flex;gap:1.4rem;flex-wrap:wrap}
+    .foot .sig{color:var(--st-ink-2)}
+  </style>
+  <div class="st-wrap">
+    <div class="grid">
+      <span><b>SITE-WORLD</b> · MIT · © 2026 oicit</span>
+      <span class="links">
+        <a href="https://github.com/oicit/site-world">repo</a>
+        <a href="https://github.com/oicit/site-world/blob/main/skills/site-world/SKILL.md">SKILL.md</a>
+        <a href="https://github.com/oicit/site-world/blob/main/skills/site-world/references/qa-rubric.md">rubric</a>
+        <a href="https://github.com/oso95/scroll-world">scroll-world</a>
+      </span>
+      <span class="sig">assembled by site-world, from its own sections</span>
+    </div>
   </div>
 </footer>
 
 <script>
-  (function () {
-    if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-    const io = new IntersectionObserver(es => es.forEach(e => {
-      if (e.isIntersecting) { e.target.classList.add('st-in'); io.unobserve(e.target); }
-    }), { threshold: 0.18 });
-    document.querySelectorAll('.st-reveal').forEach(n => io.observe(n));
+  /* token annotation switch */
+  (function(){var b=document.getElementById('tkbtn');
+    function t(){document.body.classList.toggle('tokens');}
+    b.addEventListener('click',t);
+    b.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();t();}});})();
+
+  /* generic reveal observer */
+  (function(){
+    if(matchMedia('(prefers-reduced-motion: reduce)').matches)return;
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('st-in');io.unobserve(e.target);}});},{threshold:.18});
+    document.querySelectorAll('.st-reveal').forEach(function(n){io.observe(n);});
+  })();
+
+  /* pipeline terminal: type a step's log when its step scrolls into focus */
+  (function(){
+    var body=document.getElementById('termBody');
+    if(!body)return;
+    var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var scripts={
+      t1:[['k','$ '],['','site-world brief\n'],['d','? page job … convert\n? tone … editorial, exact\n'],
+          ['g','✓ brief.md written\n'],['k','$ '],['','render tiles\n'],
+          ['g','✓ tile-1 tile-2 tile-3\n'],['','› picked: 02  '],['g','FROZEN → theme.css\n']],
+      t2:[['k','$ '],['','site-world blueprint\n'],
+          ['','hero-cover · orders · specs\npipeline · tally · verdict\nsignoff · footer\n'],
+          ['d','8 sections · token-only\n'],['k','$ '],['','assemble\n'],['g','✓ index.html\n']],
+      t3:[['k','$ '],['','node qa-harness.mjs\n'],
+          ['','shoot desktop … phone … reduced-motion\noverflow 0 · console 0 · hex 0\n'],
+          ['','score rubric … 10 dims\n'],['g','✓ QA: PASS — ship\n']]
+    };
+    var cur=null,timer=null;
+    function render(seq){
+      return seq.map(function(p){return '<span class="'+p[0]+'">'+p[1].replace(/</g,'&lt;')+'</span>';}).join('');
+    }
+    function play(id){
+      if(cur===id)return; cur=id; clearTimeout(timer);
+      var seq=scripts[id]; if(!seq){return;}
+      if(reduce){body.innerHTML=render(seq);return;}
+      // flatten to chars, keeping class spans
+      var full='',classes=[];
+      seq.forEach(function(p){for(var i=0;i<p[1].length;i++){full+=p[1][i];classes.push(p[0]);}});
+      var n=0;
+      (function step(){
+        var shown=seq, out='',consumed=0,idx=0;
+        // rebuild html up to n chars
+        var acc='',count=n;
+        for(var s=0;s<seq.length&&count>0;s++){
+          var txt=seq[s][1],take=Math.min(txt.length,count);
+          acc+='<span class="'+seq[s][0]+'">'+txt.slice(0,take).replace(/</g,'&lt;')+'</span>';
+          count-=take;
+        }
+        body.innerHTML=acc+'<span class="cur"></span>';
+        if(n<full.length){n++;timer=setTimeout(step, full[n-1]==='\n'?90:18);}
+      })();
+    }
+    play('t1');
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){
+      if(e.isIntersecting){play(e.target.dataset.term);}});},{rootMargin:'-40% 0px -40% 0px'});
+    document.querySelectorAll('.pipe .step').forEach(function(n){io.observe(n);});
   })();
 </script>
 </body>
